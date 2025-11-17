@@ -6,8 +6,8 @@ import LoginScreen from "../../components/auth/Login";
 export default function home() {
   return (
     <View style={styles.container}>
-      {/* <RegisterScreen></RegisterScreen> */}
-      <LoginScreen></LoginScreen>
+      {/* <LoginScreen></LoginScreen> */}
+      <Text>Home component </Text>
     </View>
   );
 }

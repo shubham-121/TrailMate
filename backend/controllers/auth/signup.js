@@ -11,6 +11,7 @@ async function signup(req, res) {
 
   //1- check for missing credentials
   if (!userName || !userEmail || !userPhoneNumber || !userPassword) {
+    console.error("Error missing credentials");
     return res.status(400).json({
       message: "Missing credentials, please fill all credentials first",
       userData: {
@@ -74,6 +75,7 @@ async function signup(req, res) {
       userName: userName,
       userEmail: userEmail,
       userPhoneNumber: userPhoneNumber,
+      userId: newUser._id,
       token: jwt_token,
     });
   } catch (error) {

@@ -5,14 +5,106 @@ import {
   TouchableOpacity,
   Image,
   ImageBackground,
+  StyleSheet,
 } from "react-native";
 import signupBg from "../../assets/images/auth/signupBg.jpg";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
+import { useEffect, useState } from "react";
+import { fetchRequest } from "../../utils/commonFunctions/fetchRequest";
+import { useDispatch, useSelector } from "react-redux";
+import { setCredentials } from "../../redux/slices/authSlice";
 
 export default function LoginScreen() {
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+
+  function handleFormChange(name, value) {
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  }
+
+  return (
+    <View className="flex-1 w-full">
+      <LoginForm
+        formData={formData}
+        setFormData={setFormData}
+        handleFormChange={handleFormChange}
+      ></LoginForm>
+    </View>
+  );
+}
+
+function LoginForm({ formData, setFormData, handleFormChange }) {
   const insets = useSafeAreaInsets();
   const router = useRouter();
+
+  const dispatch = useDispatch();
+  const { authUserData } = useSelector((state) => state.authentication);
+
+  // useEffect(() => {
+  //   console.log("Auth user data obj updated:", authUserData);
+  // }, [authUserData]);
+
+  async function handleLogin() {
+    const baseUrl = process.env.EXPO_PUBLIC_BASE_URL;
+
+    if (!formData.email || !formData.password) {
+      alert("Please enter all the required details before registering");
+      return;
+    }
+
+    try {
+      const res = await fetch(`${baseUrl}/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userEmail: formData.email,
+          userPassword: formData.password,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        alert(data.message || "Something went wrong");
+        return;
+      }
+
+      if (!data) {
+        console.log("Error in logging in  the user: ", data);
+        alert("Error in logging in the user");
+        return;
+      }
+
+      //set the user state globally
+      dispatch(
+        setCredentials({
+          access_token: data.token,
+          email: data.userEmail,
+          userId: data.userId,
+        })
+      );
+
+      console.log(
+        "user loggedin successfully, global auth state set also: ",
+        authUserData
+      );
+
+      setTimeout(() => router.replace("/profile"), 1000);
+    } catch (error) {
+      alert("Error in logging  the user", error.message);
+      console.log("Error in logging  the user: ", error.message);
+
+      return;
+    }
+  }
 
   return (
     <View className="flex-1 bg-[#F8F8F8] px-8 pt-16 w-full">
@@ -20,14 +112,22 @@ export default function LoginScreen() {
         source={signupBg}
         resizeMode="cover"
         className="absolute inset-0"
-      />
+      >
+        {/* overlay */}
+        {/* <View
+          style={{
+            ...StyleSheet.absoluteFillObject,
+            backgroundColor: "rgba(0,0,0,0.10)",
+          }}
+        ></View> */}
+      </ImageBackground>
 
       <View className="" style={{ marginTop: insets.top }}>
         <Text className="text-center text-[26px] font-bold text-[#1D1D1D]">
           Login Here
         </Text>
         <Text className="text-center text-[16px]  mt-[1%] mb-10 text-black font-semibold">
-          Welcome back you've been missed!
+          Welcome back youve been missed!
         </Text>
       </View>
 
@@ -44,6 +144,11 @@ export default function LoginScreen() {
           className="h-16 bg-[#EFEFEF] rounded-lg px-4 mb-5 text-[14px] "
           placeholder="Email"
           placeholderTextColor="#999"
+          onChangeText={(text) => {
+            console.log(text);
+            handleFormChange("email", text);
+          }}
+          value={formData.email}
         />
 
         <TextInput
@@ -51,6 +156,11 @@ export default function LoginScreen() {
           placeholder="Password"
           secureTextEntry
           placeholderTextColor="#999"
+          onChangeText={(text) => {
+            console.log(text);
+            handleFormChange("password", text);
+          }}
+          value={formData.password}
         />
 
         <Text className="text-[16px] text-blue-500 font-semibold">
@@ -59,7 +169,10 @@ export default function LoginScreen() {
       </View>
 
       {/* Button */}
-      <TouchableOpacity className="bg-[#1F41BB] py-5 rounded-lg items-center mb-7">
+      <TouchableOpacity
+        onPress={handleLogin}
+        className="bg-[#1F41BB] py-5 rounded-lg items-center mb-7"
+      >
         <Text className="text-white text-[18px] font-semibold">Sign in</Text>
       </TouchableOpacity>
 

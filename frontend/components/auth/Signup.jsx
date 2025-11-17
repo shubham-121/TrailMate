@@ -10,12 +10,15 @@ import signupBg from "../../assets/images/auth/signupBg.jpg";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { setCredentials } from "../../redux/slices/authSlice";
 
 export default function RegisterScreen() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
+    phoneNumber: "",
   });
 
   function handleFormChange(name, value) {
@@ -38,8 +41,16 @@ function RegisterForm({ formData, setFormData, handleFormChange }) {
   const insets = useSafeAreaInsets();
   const router = useRouter();
 
+  //redux
+  const { access_token, authUserData } = useSelector(
+    (state) => state.authentication
+  );
+  const dispatch = useDispatch();
+
+  //
+
   async function registerUser() {
-    const { email, name, password } = formData;
+    const { email, name, password, phoneNumber } = formData;
 
     const baseUrl = process.env.EXPO_PUBLIC_BASE_URL;
 
@@ -54,10 +65,23 @@ function RegisterForm({ formData, setFormData, handleFormChange }) {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email, name, password }),
+        // body: JSON.stringify({ email, name, password }),
+        body: JSON.stringify({
+          userName: name,
+          userEmail: email,
+          userPhoneNumber: phoneNumber,
+          userPassword: password,
+        }),
       });
 
       const data = await res.json();
+
+      // console.log("Data is:", data);
+
+      if (!res.ok) {
+        alert(data.message || "Something went wrong");
+        return;
+      }
 
       if (!data) {
         console.log("Error in registering the user: ", data);
@@ -66,6 +90,20 @@ function RegisterForm({ formData, setFormData, handleFormChange }) {
       }
 
       console.log("User registered successfully ", data);
+      alert("Registartion successful");
+
+      //dispatch event ->set the authenticated user state globally
+      // console.log("Dispatching token:", data.token);
+      dispatch(
+        setCredentials({
+          access_token: data.token,
+          email: data.userEmail,
+          userId: data.userId,
+        })
+      );
+
+      //redirecting the user again after successful login
+      setTimeout(() => router.replace("/profile"), 1000);
     } catch (error) {
       alert("Error in registering the user", error.message);
       console.log("Error in registering the user: ", error.message);
@@ -126,6 +164,14 @@ function RegisterForm({ formData, setFormData, handleFormChange }) {
           value={formData.password}
           onChangeText={(text) => handleFormChange("password", text)}
         />
+
+        <TextInput
+          className="h-16 bg-[#EFEFEF] rounded-lg px-4 mb-5 text-[14px]"
+          placeholder="Phone Number"
+          placeholderTextColor="#999"
+          value={formData.phoneNumber}
+          onChangeText={(text) => handleFormChange("phoneNumber", text)}
+        />
       </View>
 
       <Text
@@ -138,11 +184,7 @@ function RegisterForm({ formData, setFormData, handleFormChange }) {
       {/* Button */}
       <TouchableOpacity
         className="bg-[#1F41BB] py-5 rounded-lg items-center mb-7"
-        onPress={() => {
-          console.log("Formdata is:", formData);
-          registerUser();
-          // setFormData({ name: "", email: "", password: "" });
-        }}
+        onPress={() => registerUser()}
       >
         <Text className="text-white text-[18px] font-semibold">Sign up</Text>
       </TouchableOpacity>

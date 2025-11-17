@@ -65,6 +65,7 @@ async function login(req, res) {
       userName: searchUser.userName,
       userEmail: searchUser.userEmail,
       userPhoneNumber: searchUser.userPhoneNumber,
+      userId: searchUser._id,
       token: jwt_token,
     });
   } catch (error) {
