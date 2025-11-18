@@ -3,7 +3,7 @@ import React from "react";
 import RegisterScreen from "../../components/auth/Signup";
 import LoginScreen from "../../components/auth/Login";
 
-export default function home() {
+export default function HomeTab() {
   return (
     <View style={styles.container}>
       {/* <LoginScreen></LoginScreen> */}
