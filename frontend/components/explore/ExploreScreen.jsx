@@ -9,8 +9,8 @@ import MapComponent from "./MapComponent";
 
 export default function ExploreScreen() {
   const [location, setLocation] = useState({
-    latitude: 30.3526212,
-    longitude: 78.0193203,
+    latitude: 30.352642,
+    longitude: 78.019554,
     source: "default",
   });
 
@@ -52,7 +52,6 @@ export default function ExploreScreen() {
   return (
     <View style={styles.container}>
       {errorMsg && ToastAndroid.show(errorMsg, ToastAndroid.LONG)}
-      <Text>hello</Text>
 
       <MapComponent location={location}></MapComponent>
     </View>
