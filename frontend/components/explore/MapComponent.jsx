@@ -1,7 +1,9 @@
-import { View, Text, StyleSheet } from "react-native";
-import React, { useEffect, useState } from "react";
-import MapView, { Callout, Marker } from "react-native-maps";
 import * as Location from "expo-location";
+import { useEffect, useRef, useState } from "react";
+import { StyleSheet, Text, View } from "react-native";
+import MapView, { Marker } from "react-native-maps";
+import { useSelector } from "react-redux";
+import SearchBar from "./SearchBar";
 
 export default function MapComponent({ location }) {
   //   const { latitude, longitude } = location;
@@ -9,6 +11,38 @@ export default function MapComponent({ location }) {
   const [markerPosition, setMarkerPosition] = useState(null); //marker for user click on map
   const [isPopupVisible, setIsPopupVisible] = useState(false); //popup for location details of place clicked by user where marker is placed
   const [markerData, setMarkerData] = useState(null); //holds the marker data after reverse geocoding
+
+  //animating the map stuff here
+  const mapRef = useRef(null); //for moving map animation when user seraches a location
+  const { latitude, longitude, formattedString } = useSelector(
+    (store) => store.searchBar
+  );
+
+  useEffect(() => {
+    console.log("Animating the map");
+
+    if (latitude && longitude && mapRef.current) {
+      setMarkerPosition(null);
+      setMarkerData(null);
+      setIsPopupVisible(false);
+
+      mapRef.current.animateToRegion(
+        {
+          latitude,
+          longitude,
+          latitudeDelta: 0.4,
+          longitudeDelta: 0.4,
+        },
+        5000
+      );
+
+      setMarkerPosition({ latitude, longitude });
+
+      setIsPopupVisible(true);
+
+      reverseGeocodeLocation({ latitude, longitude });
+    }
+  }, [latitude, longitude]);
 
   useEffect(() => {
     console.log("updated user location is: ", location);
@@ -29,6 +63,7 @@ export default function MapComponent({ location }) {
 
   return (
     <>
+      <SearchBar />
       <MapView
         style={styles.map}
         initialRegion={{
@@ -37,6 +72,7 @@ export default function MapComponent({ location }) {
           latitudeDelta: 0.05,
           longitudeDelta: 0.05,
         }}
+        ref={mapRef}
         onPress={(e) => {
           const coords = e.nativeEvent.coordinate;
           setMarkerPosition(coords);

@@ -1,5 +1,5 @@
 import { useRouter } from "expo-router";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import ExploreScreen from "../../components/explore/ExploreScreen";
 
@@ -12,7 +12,7 @@ export default function ExploreTab() {
     //   <Text>Explore screen it is there</Text>
     // </View>
 
-    <View style={{ flex: 1, marginTop: insets.top }}>
+    <View style={{ flex: 1 }}>
       {/* <Text onPress={() => router.push("/login")} className="text-blue-500">
         GO to login page
       </Text>
