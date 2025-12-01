@@ -1,8 +1,8 @@
-import { View, Text, StyleSheet, ToastAndroid } from "react-native";
-import React, { useEffect, useState } from "react";
 import * as Location from "expo-location";
-import { fetchLocation } from "../../utils/commonFunctions/fetchLocation";
-import { useIsFocused } from "@react-navigation/native";
+import { useEffect, useState } from "react";
+import { StyleSheet, ToastAndroid, View } from "react-native";
+import { useDispatch } from "react-redux";
+import { setNearByPlacesCoords } from "../../redux/slices/nearByPlacesSlice";
 import MapComponent from "./MapComponent";
 // import MapComponent from "./MapComponent";
 // import MapView from "react-native-maps";
@@ -15,20 +15,69 @@ export default function ExploreScreen() {
   });
 
   const [errorMsg, setErrorMsg] = useState("");
+  const dispatch = useDispatch();
+
+  //for testing use only, delete later when user location is fetched in reality
+  dispatch(
+    setNearByPlacesCoords({
+      latitude: location.latitude,
+      longitude: location.longitude,
+    })
+  );
 
   useEffect(() => {
     async function getCurrentLocation() {
       let { status } = await Location.requestForegroundPermissionsAsync();
 
       if (status === "granted") {
-        const userLocation = await Location.getCurrentPositionAsync();
-        setLocation({
-          latitude: userLocation.coords.latitude,
-          longitude: userLocation.coords.longitude,
-          source: "device", //using accurate device location
-        });
+        try {
+          const userLocation = await Location.getCurrentPositionAsync();
 
-        console.log("fetched location using device: ", userLocation);
+          setLocation({
+            latitude: userLocation.coords.latitude,
+            longitude: userLocation.coords.longitude,
+            source: "device", //using accurate device location
+          });
+
+          console.log("fetched location using device: ", userLocation);
+
+          //set the coords globally here also for nearby places component to work
+
+          // dispatch(
+          //   setNearByPlacesCoords({
+          //     latitude: coords.latitude,
+          //     longitude: coords.longitude,
+          //   })
+          // );
+        } catch (error) {
+          console.log("GPS error, location unavailable", error.message);
+
+          // fallback if user doesnt allow permission, then get newthwork based location
+          try {
+            let res = await fetch("https://ipapi.co/json/");
+            let data = await res.json();
+            setLocation({
+              latitude: data.latitude,
+              longitude: data.longitude,
+              source: "ip", //using network based location
+            });
+            console.log("Network based location: ", data);
+
+            //set the coords globally here also for nearby places component to work
+
+            // dispatch(
+            //   setNearByPlacesCoords({
+            //     latitude: coords.latitude,
+            //     longitude: coords.longitude,
+            //   })
+            // );
+          } catch (error) {
+            setErrorMsg(
+              "Permission to access location was denied 1",
+              error.message
+            );
+          }
+        }
       } else {
         try {
           let res = await fetch("https://ipapi.co/json/");
@@ -38,9 +87,19 @@ export default function ExploreScreen() {
             longitude: data.longitude,
             source: "ip", //using network based location
           });
+          console.log("(else block) Network based location: ", data);
+
+          //set the coords globally here also for nearby places component to work
+
+          // dispatch(
+          //   setNearByPlacesCoords({
+          //     latitude: coords.latitude,
+          //     longitude: coords.longitude,
+          //   })
+          // );
         } catch (error) {
           setErrorMsg(
-            "Permission to access location was denied",
+            "Permission to access location was denied 2",
             error.message
           );
         }

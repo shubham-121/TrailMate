@@ -2,7 +2,8 @@ import * as Location from "expo-location";
 import { useEffect, useRef, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import MapView, { Marker } from "react-native-maps";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setNearByPlacesCoords } from "../../redux/slices/nearByPlacesSlice";
 import SearchBar from "./SearchBar";
 
 export default function MapComponent({ location }) {
@@ -17,6 +18,8 @@ export default function MapComponent({ location }) {
   const { latitude, longitude, formattedString } = useSelector(
     (store) => store.searchBar
   );
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     console.log("Animating the map");
@@ -64,6 +67,7 @@ export default function MapComponent({ location }) {
   return (
     <>
       <SearchBar />
+
       <MapView
         style={styles.map}
         initialRegion={{
@@ -79,6 +83,14 @@ export default function MapComponent({ location }) {
           setIsPopupVisible(true);
           reverseGeocodeLocation(coords);
           console.log("Pressed", coords);
+
+          //set coords globally
+          dispatch(
+            setNearByPlacesCoords({
+              latitude: coords.latitude,
+              longitude: coords.longitude,
+            })
+          );
         }}
       >
         {/* current location marker */}
