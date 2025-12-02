@@ -2,13 +2,22 @@ import AntDesign from "@expo/vector-icons/AntDesign";
 import Feather from "@expo/vector-icons/Feather";
 import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
-import { FlatList, Image, Pressable, Text, View } from "react-native";
+import {
+  ActivityIndicator,
+  FlatList,
+  Image,
+  Pressable,
+  Text,
+  View,
+} from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useSelector } from "react-redux";
 import cafe from "../../../assets/images/places/cafe.jpg";
 
 export default function SubCategoryScreen({ category }) {
   const [placesData, setPlacesData] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+
   const insets = useSafeAreaInsets();
   const router = useRouter();
 
@@ -21,6 +30,7 @@ export default function SubCategoryScreen({ category }) {
   useEffect(() => {
     async function getNearbyPlaces() {
       try {
+        setIsLoading(true);
         const res = await fetch(
           `https://api.geoapify.com/v2/places?categories=${category}&filter=circle:${selectedCoords.lon},${selectedCoords.lat},5000&limit=20&apiKey=${process.env.EXPO_PUBLIC_GEOAPIFY_PLACES_API}`
         );
@@ -30,7 +40,9 @@ export default function SubCategoryScreen({ category }) {
         setPlacesData(data);
 
         console.log("Places data fetched: ", data);
+        setIsLoading(false);
       } catch (error) {
+        setIsLoading(false);
         console.error("Error occured in fetching places data: ", error.message);
       }
     }
@@ -46,8 +58,13 @@ export default function SubCategoryScreen({ category }) {
       </View>
 
       <View className="flex-1 p-4 ">
-        {/* <Text>{category}</Text> */}
-        {placesData && <RenderPlacesData placesData={placesData} />}{" "}
+        {isLoading ? (
+          <View className="flex-1 justify-center items-center">
+            <ActivityIndicator size="large" color="#0000ff" />
+          </View>
+        ) : (
+          placesData && <RenderPlacesData placesData={placesData} />
+        )}
       </View>
     </View>
   );
@@ -64,7 +81,6 @@ function RenderPlacesData({ placesData }) {
             key={item.properties.place_id}
             className="flex-row items-center bg-white  rounded-lg p-3 m-2 shadow-lg"
           >
-            {/* Replace 'cafe' with dynamic map/static image if needed */}
             <Image
               source={cafe}
               className="h-20 w-20 rounded-lg"
@@ -97,6 +113,3 @@ function RenderPlacesData({ placesData }) {
     </View>
   );
 }
-
-//mock api example for Places api
-// https://api.geoapify.com/v2/places?categories=commercial&filter=circle:78.019554,30.352642,5000&limit=20&apiKey=478474f7b5fc4d83b33e5507a076eaa9

@@ -23,10 +23,10 @@ export default function SearchScreen() {
   const insets = useSafeAreaInsets();
   const router = useRouter();
 
-  const focusRef = useRef(null);
+  const searchBarFocusRef = useRef(null);
 
   useEffect(() => {
-    focusRef.current.focus();
+    searchBarFocusRef.current.focus();
   }, []);
 
   async function searchLocation() {
@@ -71,7 +71,7 @@ export default function SearchScreen() {
                 onChangeText={setInputLocation}
                 placeholder="Search Here "
                 className="p-2  w-96 "
-                ref={focusRef}
+                ref={searchBarFocusRef}
                 autoFocus
               ></TextInput>
             </View>

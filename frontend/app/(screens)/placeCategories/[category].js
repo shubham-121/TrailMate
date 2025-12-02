@@ -11,11 +11,6 @@ export default function Subcategory() {
 
   return (
     <View style={{ flex: 1 }}>
-      {/* <Text>Subcategory: {params.category} </Text>
-      <Pressable onPress={() => router.back()}>
-        <Text classname="border-2 p-2">Go back</Text>
-      </Pressable> */}
-
       <SubCategoryScreen category={params.category}></SubCategoryScreen>
     </View>
   );

@@ -1,8 +1,9 @@
 import * as Location from "expo-location";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import { useDispatch, useSelector } from "react-redux";
+import { MapRefContext } from "../../app/_layout";
 import { setNearByPlacesCoords } from "../../redux/slices/nearByPlacesSlice";
 import SearchBar from "./SearchBar";
 
@@ -14,12 +15,14 @@ export default function MapComponent({ location }) {
   const [markerData, setMarkerData] = useState(null); //holds the marker data after reverse geocoding
 
   //animating the map stuff here
-  const mapRef = useRef(null); //for moving map animation when user seraches a location
+  // const mapRef = useRef(null); //for moving map animation when user seraches a location
   const { latitude, longitude, formattedString } = useSelector(
     (store) => store.searchBar
   );
 
   const dispatch = useDispatch();
+
+  const { mapRef } = useContext(MapRefContext);
 
   useEffect(() => {
     console.log("Animating the map");
@@ -48,6 +51,7 @@ export default function MapComponent({ location }) {
   }, [latitude, longitude]);
 
   useEffect(() => {
+    //delete later
     console.log("updated user location is: ", location);
     console.log("marker updated on map: ", markerPosition);
   }, [location, markerPosition]);
@@ -151,6 +155,7 @@ export default function MapComponent({ location }) {
   );
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////
 const styles = StyleSheet.create({
   container: {
     flex: 1,

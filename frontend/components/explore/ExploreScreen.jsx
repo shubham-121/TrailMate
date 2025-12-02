@@ -1,6 +1,11 @@
 import * as Location from "expo-location";
 import { useEffect, useState } from "react";
-import { StyleSheet, ToastAndroid, View } from "react-native";
+import {
+  ActivityIndicator,
+  StyleSheet,
+  ToastAndroid,
+  View,
+} from "react-native";
 import { useDispatch } from "react-redux";
 import { setNearByPlacesCoords } from "../../redux/slices/nearByPlacesSlice";
 import MapComponent from "./MapComponent";
@@ -17,13 +22,17 @@ export default function ExploreScreen() {
   const [errorMsg, setErrorMsg] = useState("");
   const dispatch = useDispatch();
 
-  //for testing use only, delete later when user location is fetched in reality
-  dispatch(
-    setNearByPlacesCoords({
-      latitude: location.latitude,
-      longitude: location.longitude,
-    })
-  );
+  //fetch the nearby places on mount before map loads or user clicks on map (default nearby places)
+  useEffect(() => {
+    dispatch(
+      setNearByPlacesCoords({
+        latitude: location.latitude,
+        longitude: location.longitude,
+      })
+    );
+  }, [location]);
+
+  console.log("default initial coords:", location);
 
   useEffect(() => {
     async function getCurrentLocation() {
@@ -112,7 +121,13 @@ export default function ExploreScreen() {
     <View style={styles.container}>
       {errorMsg && ToastAndroid.show(errorMsg, ToastAndroid.LONG)}
 
-      <MapComponent location={location}></MapComponent>
+      {location ? (
+        <MapComponent location={location}></MapComponent>
+      ) : (
+        <View style={styles.container}>
+          <ActivityIndicator size="large" color="skyblue "></ActivityIndicator>
+        </View>
+      )}
     </View>
   );
 }
