@@ -1,10 +1,12 @@
 import { View } from "react-native";
-import PlaceCategoriesScreen from "../../../components/explore/nearbyPlaces/PlaceCategoriesScreen";
+import CategoriesScreen from "../../../components/explore/nearbyPlaces/CategoriesScreen";
 
 export default function PlaceCategories() {
   return (
     <View style={{ flex: 1 }}>
-      <PlaceCategoriesScreen></PlaceCategoriesScreen>
+      {/* <PlaceCategoriesScreen></PlaceCategoriesScreen> */}
+
+      <CategoriesScreen />
     </View>
   );
 }

@@ -3,7 +3,7 @@ import { useRouter } from "expo-router";
 import { FlatList, Pressable, Text, ToastAndroid, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-export default function PlaceCategoriesScreen() {
+export default function CategoriesScreen() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
 

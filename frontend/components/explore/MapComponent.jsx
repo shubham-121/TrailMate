@@ -4,7 +4,10 @@ import { StyleSheet, Text, View } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import { useDispatch, useSelector } from "react-redux";
 import { MapRefContext } from "../../app/_layout";
-import { setNearByPlacesCoords } from "../../redux/slices/nearByPlacesSlice";
+import {
+  setNearByPlacesCoords,
+  setShowOnMapCoords,
+} from "../../redux/slices/nearByPlacesSlice";
 import SearchBar from "./SearchBar";
 
 export default function MapComponent({ location }) {
@@ -16,16 +19,17 @@ export default function MapComponent({ location }) {
 
   //animating the map stuff here
   // const mapRef = useRef(null); //for moving map animation when user seraches a location
-  const { latitude, longitude, formattedString } = useSelector(
-    (store) => store.searchBar
-  );
+  const { latitude, longitude } = useSelector((store) => store.searchBar);
+
+  const { showOnMapCoords } = useSelector((store) => store.nearByPlaces);
 
   const dispatch = useDispatch();
 
   const { mapRef } = useContext(MapRefContext);
 
+  //1-  useeffect for search bar animation on user search
   useEffect(() => {
-    console.log("Animating the map");
+    // console.log("Animating the map");
 
     if (latitude && longitude && mapRef.current) {
       setMarkerPosition(null);
@@ -47,16 +51,53 @@ export default function MapComponent({ location }) {
       setIsPopupVisible(true);
 
       reverseGeocodeLocation({ latitude, longitude });
+
+      //update the explore nearby coords
+      dispatch(setNearByPlacesCoords({ latitude, longitude }));
     }
   }, [latitude, longitude]);
 
+  //2- show on map useffect from the PlaceDetailsScreen
+  useEffect(() => {
+    if (!showOnMapCoords || !mapRef.current) return;
+
+    if (showOnMapCoords && mapRef.current) {
+      const lat = showOnMapCoords.lat;
+      const lon = showOnMapCoords.lon;
+
+      console.log("showOnMapcoords useefect ran : ", lat, lon);
+
+      setMarkerPosition(null);
+      setMarkerData(null);
+      setIsPopupVisible(false);
+
+      mapRef.current.animateToRegion(
+        {
+          latitude: lat,
+          longitude: lon,
+          latitudeDelta: 0.01,
+          longitudeDelta: 0.01,
+        },
+        5000
+      );
+      setMarkerPosition({ latitude: lat, longitude: lon });
+
+      setIsPopupVisible(true);
+
+      reverseGeocodeLocation({ latitude: lat, longitude: lon });
+
+      setTimeout(() => {
+        dispatch(setShowOnMapCoords(null));
+      }, 1000);
+    }
+  }, [showOnMapCoords]);
+
+  //random useefect delete later
   useEffect(() => {
     //delete later
     console.log("updated user location is: ", location);
     console.log("marker updated on map: ", markerPosition);
   }, [location, markerPosition]);
-
-  function handleClosePopup() {}
 
   async function reverseGeocodeLocation(coords) {
     try {

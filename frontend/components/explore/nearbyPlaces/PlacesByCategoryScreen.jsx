@@ -8,13 +8,14 @@ import {
   Image,
   Pressable,
   Text,
+  ToastAndroid,
   View,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useSelector } from "react-redux";
 import cafe from "../../../assets/images/places/cafe.jpg";
 
-export default function SubCategoryScreen({ category }) {
+export default function PlacesByCategoryScreen({ category }) {
   const [placesData, setPlacesData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -39,7 +40,7 @@ export default function SubCategoryScreen({ category }) {
 
         setPlacesData(data);
 
-        console.log("Places data fetched: ", data);
+        // console.log("Places data fetched: ", data);
         setIsLoading(false);
       } catch (error) {
         setIsLoading(false);
@@ -70,7 +71,8 @@ export default function SubCategoryScreen({ category }) {
   );
 }
 function RenderPlacesData({ placesData }) {
-  console.log("Places data:", placesData.features);
+  // console.log("Places data:", placesData.features);
+  const router = useRouter();
   return (
     <View className="flex-1 bg-white">
       <FlatList
@@ -103,7 +105,14 @@ function RenderPlacesData({ placesData }) {
             </View>
 
             <View className="ml-2 rounded-full border p-2 bg-sky-200">
-              <Pressable>
+              <Pressable
+                onLongPress={() =>
+                  ToastAndroid.show("View Details", ToastAndroid.SHORT)
+                }
+                onPress={() =>
+                  router.push(`/placeDetails/${item.properties.place_id}`)
+                }
+              >
                 <Feather name="external-link" size={20} color="black" />
               </Pressable>
             </View>

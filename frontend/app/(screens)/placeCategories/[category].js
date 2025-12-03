@@ -1,6 +1,6 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { View } from "react-native";
-import SubCategoryScreen from "../../../components/explore/nearbyPlaces/SubCategoryScreen";
+import PlacesByCategoryScreen from "../../../components/explore/nearbyPlaces/PlacesByCategoryScreen";
 
 export default function Subcategory() {
   const params = useLocalSearchParams(); // route-> placeCategories/commercial etc
@@ -11,7 +11,10 @@ export default function Subcategory() {
 
   return (
     <View style={{ flex: 1 }}>
-      <SubCategoryScreen category={params.category}></SubCategoryScreen>
+      {/* <SubCategoryScreen category={params.category}></SubCategoryScreen> */}
+      <PlacesByCategoryScreen
+        category={params.category}
+      ></PlacesByCategoryScreen>
     </View>
   );
 }
