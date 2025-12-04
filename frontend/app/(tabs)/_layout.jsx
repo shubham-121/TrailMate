@@ -7,21 +7,21 @@ export default function TabLayout() {
   return (
     <Tabs screenOptions={{ headerShown: false }}>
       <Tabs.Screen
-        name="explore"
-        options={{
-          title: "Explore",
-          tabBarIcon: ({ size, color }) => (
-            <Ionicons name="compass" size={20} color="skyblue" />
-          ),
-        }}
-      ></Tabs.Screen>
-
-      <Tabs.Screen
         name="home"
         options={{
           title: "Home",
           tabBarIcon: ({ size, color }) => (
             <Ionicons name="home" size={20} color="skyblue" />
+          ),
+        }}
+      ></Tabs.Screen>
+
+      <Tabs.Screen
+        name="explore"
+        options={{
+          title: "Explore",
+          tabBarIcon: ({ size, color }) => (
+            <Ionicons name="compass" size={20} color="skyblue" />
           ),
         }}
       ></Tabs.Screen>

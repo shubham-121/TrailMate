@@ -2,12 +2,12 @@ import { View, Text, StyleSheet } from "react-native";
 import React from "react";
 import RegisterScreen from "../../components/auth/Signup";
 import LoginScreen from "../../components/auth/Login";
+import HomeScreen from "../../components/home/HomeScreen";
 
 export default function HomeTab() {
   return (
     <View style={styles.container}>
-      {/* <LoginScreen></LoginScreen> */}
-      <Text>Home component </Text>
+      <HomeScreen></HomeScreen>
     </View>
   );
 }
