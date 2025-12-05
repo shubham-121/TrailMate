@@ -12,7 +12,7 @@ import homeBg from "../../../assets/images/home/homeBg.avif";
 //fetch via api here
 export default function SuggestedPlaces() {
   return (
-    <View className="px-4 mt-4  ">
+    <View className="px-4 mt-4">
       <Text className="text-lg font-semibold mb-3">
         Suggested places around you
       </Text>
@@ -21,6 +21,7 @@ export default function SuggestedPlaces() {
     </View>
   );
 }
+
 function RenderSuggestedPlaces() {
   return (
     <View>
@@ -29,21 +30,27 @@ function RenderSuggestedPlaces() {
         data={placesObj}
         showsHorizontalScrollIndicator={false}
         keyExtractor={(item) => item.id}
-        contentContainerStyle={{ gap: 16 }} // spacing between items
+        contentContainerStyle={{ paddingHorizontal: 4, gap: 16 }} // spacing + edge padding
         renderItem={({ item }) => (
           <View className="items-center">
             <Pressable className="rounded-full shadow-md overflow-hidden">
               <Image
                 source={item.image}
                 style={{
-                  height: 70,
+                  height: 70, // default size
                   width: 70,
                   borderRadius: 35,
+                  resizeMode: "cover",
                 }}
               />
             </Pressable>
 
-            <Text className="mt-2 text-sm font-medium text-gray-700">
+            <Text
+              className="mt-2 text-sm font-medium text-gray-700"
+              numberOfLines={1} // prevent wrapping on very small screens
+              ellipsizeMode="tail"
+              style={{ maxWidth: 80 }} // keeps text within image width
+            >
               {item.name}
             </Text>
           </View>

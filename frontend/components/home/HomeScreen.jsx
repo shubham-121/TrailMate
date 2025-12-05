@@ -24,7 +24,7 @@ export default function HomeScreen() {
 
   return (
     <ScrollView
-      contentContainerStyle={{ paddingBottom: 40 }}
+      // contentContainerStyle={{ paddingBottom: 40 }}
       showsVerticalScrollIndicator={false}
     >
       <>
@@ -36,12 +36,14 @@ export default function HomeScreen() {
         >
           <ImageBackground
             source={homeBg}
-            className="h-[21%]  opacity-85 "
+            className="  opacity-85 "
             imageStyle={{
               borderBottomLeftRadius: 25,
               borderBottomRightRadius: 25,
+              aspectRatio: 9 / 16,
             }}
           >
+            {/* overlay */}
             <View
               className="absolute inset-0 bg-black/30"
               style={{
@@ -59,9 +61,14 @@ export default function HomeScreen() {
             <Search></Search>
           </ImageBackground>
 
-          <SuggestedPlaces></SuggestedPlaces>
+          <View
+            className=" m-1 bg-stone-300/50"
+            style={{ borderTopLeftRadius: 15, borderTopRightRadius: 15 }}
+          >
+            <SuggestedPlaces></SuggestedPlaces>
 
-          <ShowTrips></ShowTrips>
+            <ShowTrips></ShowTrips>
+          </View>
         </View>
       </>
     </ScrollView>
