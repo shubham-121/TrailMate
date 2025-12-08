@@ -10,6 +10,7 @@ import {
 import React, { useState } from "react";
 import homeBg from "../../../assets/images/home/homeBg.avif";
 import Entypo from "@expo/vector-icons/Entypo";
+import ShowTripSkeletonLoader from "../../../utils/commonComponents/ShowTripSkeletonLoader";
 
 export default function ShowTrips() {
   const [tripsPresent, setTripsPresent] = useState(true);
@@ -31,6 +32,9 @@ export default function ShowTrips() {
           </Text>
         </Pressable>
       </View>
+
+      {/* skeleton loader for loading the trips in home screen */}
+      <ShowTripSkeletonLoader />
     </View>
   );
 }

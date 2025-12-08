@@ -3,6 +3,7 @@ import { StatusBar } from "expo-status-bar";
 import { createContext, useRef } from "react";
 import { Provider } from "react-redux";
 import { store } from "../redux/store";
+import { Drawer } from "expo-router/drawer";
 
 export const MapRefContext = createContext({
   mapRef: null,
@@ -30,7 +31,6 @@ export default function RootLayout() {
               name="(tabs)"
               options={{ headerShown: false }}
             ></Stack.Screen>
-
             <Stack.Screen
               name="(screens)"
               options={{ headerShown: false }}

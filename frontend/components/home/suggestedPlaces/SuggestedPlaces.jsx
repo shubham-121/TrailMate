@@ -30,14 +30,14 @@ function RenderSuggestedPlaces() {
         data={placesObj}
         showsHorizontalScrollIndicator={false}
         keyExtractor={(item) => item.id}
-        contentContainerStyle={{ paddingHorizontal: 4, gap: 16 }} // spacing + edge padding
+        contentContainerStyle={{ paddingHorizontal: 4, gap: 16 }}
         renderItem={({ item }) => (
           <View className="items-center">
             <Pressable className="rounded-full shadow-md overflow-hidden">
               <Image
                 source={item.image}
                 style={{
-                  height: 70, // default size
+                  height: 70,
                   width: 70,
                   borderRadius: 35,
                   resizeMode: "cover",
@@ -47,9 +47,9 @@ function RenderSuggestedPlaces() {
 
             <Text
               className="mt-2 text-sm font-medium text-gray-700"
-              numberOfLines={1} // prevent wrapping on very small screens
+              numberOfLines={1}
               ellipsizeMode="tail"
-              style={{ maxWidth: 80 }} // keeps text within image width
+              style={{ maxWidth: 80 }}
             >
               {item.name}
             </Text>
