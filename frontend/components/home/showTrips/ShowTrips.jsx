@@ -11,9 +11,11 @@ import React, { useState } from "react";
 import homeBg from "../../../assets/images/home/homeBg.avif";
 import Entypo from "@expo/vector-icons/Entypo";
 import ShowTripSkeletonLoader from "../../../utils/commonComponents/ShowTripSkeletonLoader";
+import { useRouter } from "expo-router";
 
 export default function ShowTrips() {
   const [tripsPresent, setTripsPresent] = useState(true);
+  const router = useRouter();
 
   return (
     <View className="px-4 mt-4">
@@ -26,6 +28,12 @@ export default function ShowTrips() {
       />
 
       <View className=" ">
+        <Pressable
+          className=" m-2 p-3 rounded-[20px]  border-gray-500 bg-[#d89cef]"
+          onPress={() => router.push("/trips")}
+        >
+          <Text className="text-center font-semibold  text-lg">See More</Text>
+        </Pressable>
         <Pressable className=" m-2 p-3 rounded-[20px]  border-gray-500 bg-[#d89cef]">
           <Text className="text-center font-semibold  text-lg">
             Create A New Trip +

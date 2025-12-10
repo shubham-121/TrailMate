@@ -2,13 +2,17 @@ import * as Location from "expo-location";
 import { useEffect, useState } from "react";
 import {
   ActivityIndicator,
+  Modal,
+  Pressable,
   StyleSheet,
+  Text,
   ToastAndroid,
   View,
 } from "react-native";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setNearByPlacesCoords } from "../../redux/slices/nearByPlacesSlice";
 import MapComponent from "./MapComponent";
+import { deActivateCreateTripModal } from "../../redux/slices/createTripSlice";
 // import MapComponent from "./MapComponent";
 // import MapView from "react-native-maps";
 
@@ -21,6 +25,8 @@ export default function ExploreScreen() {
 
   const [errorMsg, setErrorMsg] = useState("");
   const dispatch = useDispatch();
+
+  const { isCreatingTrip } = useSelector((store) => store.createTrip);
 
   //fetch the nearby places on mount before map loads or user clicks on map (default nearby places)
   useEffect(() => {
@@ -128,6 +134,28 @@ export default function ExploreScreen() {
           <ActivityIndicator size="large" color="skyblue "></ActivityIndicator>
         </View>
       )}
+
+      {isCreatingTrip && <CreateTripModal isCreatingTrip={isCreatingTrip} />}
+    </View>
+  );
+}
+
+export function CreateTripModal({ isCreatingTrip }) {
+  const dispatch = useDispatch();
+  return (
+    <View>
+      <Modal animationType="slide" visible={isCreatingTrip}>
+        <View style={{ flex: 1 }}>
+          <Pressable
+            style={{ position: "absolute", top: 30, right: 20, padding: 10 }}
+            onPress={() => dispatch(deActivateCreateTripModal())}
+          >
+            <Text>Close</Text>
+          </Pressable>
+
+          <Text>Modal Content here!</Text>
+        </View>
+      </Modal>
     </View>
   );
 }

@@ -184,12 +184,22 @@ export default function MapComponent({ location }) {
           </View>
           <Text style={styles.popupText}>{markerData ? markerData : " "}</Text>
 
-          <Text
-            style={styles.closeButton}
-            onPress={() => setIsPopupVisible(false)}
-          >
-            Dismiss
-          </Text>
+          <View className=" flex-row justify-around">
+            <Text
+              style={styles.closeButton}
+              onPress={() => setIsPopupVisible(false)}
+            >
+              Dismiss
+            </Text>
+
+            <Text
+              style={styles.closeButton}
+              // onPress={() => setIsPopupVisible(false)}
+              //trigger dispatch action here with api data
+            >
+              Add To Trip
+            </Text>
+          </View>
         </View>
       )}
     </>

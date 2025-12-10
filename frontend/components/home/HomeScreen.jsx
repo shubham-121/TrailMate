@@ -117,7 +117,7 @@ function RenderActionCards() {
 
       <Pressable
         className="bg-white/60 px-4 py-4 min-w-24 rounded-xl shadow-md flex items-center"
-        onPress={() => router.push("/explore")}
+        onPress={() => router.push("/trips")}
         onLongPress={() =>
           ToastAndroid.show("View Your Saved Trips", ToastAndroid.SHORT)
         }
