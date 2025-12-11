@@ -9,6 +9,7 @@ import {
   setShowOnMapCoords,
 } from "../../redux/slices/nearByPlacesSlice";
 import SearchBar from "./SearchBar";
+import { createTrip } from "../../redux/slices/createTripSlice";
 
 export default function MapComponent({ location }) {
   //   const { latitude, longitude } = location;
@@ -16,6 +17,7 @@ export default function MapComponent({ location }) {
   const [markerPosition, setMarkerPosition] = useState(null); //marker for user click on map
   const [isPopupVisible, setIsPopupVisible] = useState(false); //popup for location details of place clicked by user where marker is placed
   const [markerData, setMarkerData] = useState(null); //holds the marker data after reverse geocoding
+  const [tripData, setTripData] = useState(null); //for createTripSlice data in redux
 
   //animating the map stuff here
   // const mapRef = useRef(null); //for moving map animation when user seraches a location
@@ -104,6 +106,7 @@ export default function MapComponent({ location }) {
       const data = await Location.reverseGeocodeAsync(coords);
       console.log("reverse geocoded data: ", data);
       setMarkerData(data[0].formattedAddress);
+      setTripData(data[0]); //for sending data to redux
     } catch (error) {
       console.error("Error in reverse geocoding", error.message);
     }
@@ -194,7 +197,7 @@ export default function MapComponent({ location }) {
 
             <Text
               style={styles.closeButton}
-              // onPress={() => setIsPopupVisible(false)}
+              onPress={() => dispatch(createTrip(tripData))}
               //trigger dispatch action here with api data
             >
               Add To Trip

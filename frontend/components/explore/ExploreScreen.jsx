@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setNearByPlacesCoords } from "../../redux/slices/nearByPlacesSlice";
 import MapComponent from "./MapComponent";
 import { deActivateCreateTripModal } from "../../redux/slices/createTripSlice";
+import { CreateTripDrawer } from "../trips/createTrip/CreateTripDrawer";
 // import MapComponent from "./MapComponent";
 // import MapView from "react-native-maps";
 
@@ -135,27 +136,8 @@ export default function ExploreScreen() {
         </View>
       )}
 
-      {isCreatingTrip && <CreateTripModal isCreatingTrip={isCreatingTrip} />}
-    </View>
-  );
-}
-
-export function CreateTripModal({ isCreatingTrip }) {
-  const dispatch = useDispatch();
-  return (
-    <View>
-      <Modal animationType="slide" visible={isCreatingTrip}>
-        <View style={{ flex: 1 }}>
-          <Pressable
-            style={{ position: "absolute", top: 30, right: 20, padding: 10 }}
-            onPress={() => dispatch(deActivateCreateTripModal())}
-          >
-            <Text>Close</Text>
-          </Pressable>
-
-          <Text>Modal Content here!</Text>
-        </View>
-      </Modal>
+      {/* {isCreatingTrip && <CreateTripModal isCreatingTrip={isCreatingTrip} />} */}
+      {isCreatingTrip && <CreateTripDrawer isCreatingTrip={isCreatingTrip} />}
     </View>
   );
 }

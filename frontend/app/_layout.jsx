@@ -4,6 +4,7 @@ import { createContext, useRef } from "react";
 import { Provider } from "react-redux";
 import { store } from "../redux/store";
 import { Drawer } from "expo-router/drawer";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 export const MapRefContext = createContext({
   mapRef: null,
@@ -19,25 +20,27 @@ export default function RootLayout() {
 
   return (
     <>
-      <MapRefContext.Provider value={{ mapRef, recenter }}>
-        <Provider store={store}>
-          <StatusBar
-            style="auto "
-            translucent={false}
-            backgroundColor="transparent"
-          ></StatusBar>
-          <Stack screenOptions={{ headerShown: false }}>
-            <Stack.Screen
-              name="(tabs)"
-              options={{ headerShown: false }}
-            ></Stack.Screen>
-            <Stack.Screen
-              name="(screens)"
-              options={{ headerShown: false }}
-            ></Stack.Screen>
-          </Stack>
-        </Provider>
-      </MapRefContext.Provider>
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <MapRefContext.Provider value={{ mapRef, recenter }}>
+          <Provider store={store}>
+            <StatusBar
+              style="auto "
+              translucent={false}
+              backgroundColor="transparent"
+            ></StatusBar>
+            <Stack screenOptions={{ headerShown: false }}>
+              <Stack.Screen
+                name="(tabs)"
+                options={{ headerShown: false }}
+              ></Stack.Screen>
+              <Stack.Screen
+                name="(screens)"
+                options={{ headerShown: false }}
+              ></Stack.Screen>
+            </Stack>
+          </Provider>
+        </MapRefContext.Provider>
+      </GestureHandlerRootView>
     </>
   );
 }
