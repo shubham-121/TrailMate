@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  isCreatingTrip: false,
+  isCreatingTrip: true, //change to false later on
   destinations: [], //for holding user location selected from the map to the redux then to DB
   tripObj: {}, //for temporary storage of data for formatting
 };
@@ -11,6 +11,7 @@ export const createTripSlice = createSlice({
   initialState,
   reducers: {
     activateCreateTripModal(state, action) {
+      //activates the trip drawer
       console.log("createTripSlice modal activated");
       state.isCreatingTrip = true;
     },
@@ -20,6 +21,7 @@ export const createTripSlice = createSlice({
     },
 
     createTrip: {
+      //creates the destination array for rendering in the drawer
       reducer(state, action) {
         console.log(" create trip Payload reached here: ", action.payload);
         state.destinations = [...state.destinations, action.payload];
@@ -38,6 +40,27 @@ export const createTripSlice = createSlice({
         };
       },
     },
+
+    removeDestination(state, action) {
+      const { filterId } = action.payload;
+      console.log("remove destination with filter id:", filterId);
+
+      const newDestinations = state.destinations.filter(
+        (item, index) => item.id !== filterId
+      );
+
+      state.destinations = newDestinations;
+
+      console.log(
+        "Updated destination obj is:",
+        newDestinations,
+        state.destinations
+      );
+    },
+    clearTrip(state) {
+      //clear the destination array to initial after creation of a trip
+      state.destinations = [];
+    },
   },
 });
 
@@ -47,4 +70,6 @@ export const {
   activateCreateTripModal,
   deActivateCreateTripModal,
   createTrip,
+  clearTrip,
+  removeDestination,
 } = createTripSlice.actions;
