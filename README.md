@@ -24,28 +24,22 @@ Key Features:
 
 8-Protected user actions & backend-ready flow
 
-App Preview:
+## 📱 App Preview
 
-(Screenshots reflect the current development stage)
+> Screenshots reflect the current development stage
 
+### Home & Map
+<img src="https://github.com/user-attachments/assets/a2d0934c-dff1-4ab1-8b7d-66764c06b986" width="230" />
+<img src="https://github.com/user-attachments/assets/65a7fc7c-59c4-4f0c-9718-18d6bde54850" width="230" />
 
-HomeScreen UI 
-<img width="1080" height="2400" alt="Screenshot_1765720871" src="https://github.com/user-attachments/assets/a2d0934c-dff1-4ab1-8b7d-66764c06b986" />
+### Trips & Discovery
+<img src="https://github.com/user-attachments/assets/d5dbbb43-65eb-4202-9c36-8f5dbbd242de" width="230" />
+<img src="https://github.com/user-attachments/assets/fbdfcdd9-366d-43e4-9547-97f77f64c1d6" width="230" />
+<img src="https://github.com/user-attachments/assets/37dad9a1-9b3a-45e4-88a1-7465c19d798c" width="230" />
 
-Map Screen
-<img width="1080" height="2400" alt="Screenshot_1765720965" src="https://github.com/user-attachments/assets/65a7fc7c-59c4-4f0c-9718-18d6bde54850" />
+### Authentication
+<img src="https://github.com/user-attachments/assets/6cd9a8f4-5b21-40bb-8713-2279ec47fde4" width="230" />
 
-Trip Drawer (For creating Trips)
-<img width="1080" height="2400" alt="Screenshot_1765720980" src="https://github.com/user-attachments/assets/d5dbbb43-65eb-4202-9c36-8f5dbbd242de" />
-
-NearBy Places
-<img width="1080" height="2400" alt="Screenshot_1765721144" src="https://github.com/user-attachments/assets/fbdfcdd9-366d-43e4-9547-97f77f64c1d6" />
-
-Searchscreen
-<img width="1080" height="2400" alt="Screenshot_1765721166" src="https://github.com/user-attachments/assets/37dad9a1-9b3a-45e4-88a1-7465c19d798c" />
-
-Signup / Signin Screen
-<img width="1080" height="2400" alt="Screenshot_1765721178" src="https://github.com/user-attachments/assets/6cd9a8f4-5b21-40bb-8713-2279ec47fde4" />
 
 Tech Stack:
 
