@@ -17,6 +17,12 @@ export default function DestinationDetailsScreen() {
     <>
       <View className="flex-1 bg-white" style={{ paddingTop: top }}>
         <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: 100 }}>
+          <View className=" bg-gray-200 self-start px-2 py-1 rounded-lg">
+            <Pressable onPress={() => router.back()}>
+              <AntDesign name="arrow-left" size={24} color="black" />
+            </Pressable>
+          </View>
+
           <DestinationImageSection />
 
           <View className="mt-4 p-4 bg-gray-100 rounded-lg shadow">

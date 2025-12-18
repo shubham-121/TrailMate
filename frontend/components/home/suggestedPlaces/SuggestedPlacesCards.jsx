@@ -8,14 +8,25 @@ import {
 } from "react-native";
 import React from "react";
 import homeBg from "../../../assets/images/home/homeBg.avif";
+import { suggestedPlacesApi } from "../../../utils/commonFunctions/suggestedPlacesApi";
+import { useRouter } from "expo-router";
 
 //fetch via api here
 export default function SuggestedPlaces() {
+  const router = useRouter();
   return (
     <View className="px-4 mt-4">
-      <Text className="text-lg font-semibold mb-3">
-        Suggested places around you
-      </Text>
+      <View className="flex flex-row items-center justify-between">
+        <Text className="text-lg font-semibold mb-3">
+          Suggested places around you
+        </Text>
+
+        <Pressable onPress={() => router.push("/suggestedPlaces")}>
+          <Text className="text-lg font-medium mb-2 text-blue-500 underline">
+            View All
+          </Text>
+        </Pressable>
+      </View>
 
       <RenderSuggestedPlaces />
     </View>
@@ -27,15 +38,15 @@ function RenderSuggestedPlaces() {
     <View>
       <FlatList
         horizontal
-        data={placesObj}
+        data={suggestedPlacesApi}
         showsHorizontalScrollIndicator={false}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item.id.toString()}
         contentContainerStyle={{ paddingHorizontal: 4, gap: 16 }}
         renderItem={({ item }) => (
           <View className="items-center">
-            <Pressable className="rounded-full shadow-md overflow-hidden">
+            <Pressable className="rounded-full shadow-md overflow-hidden  border-2 border-blue-400">
               <Image
-                source={item.image}
+                source={{ uri: item.image }}
                 style={{
                   height: 70,
                   width: 70,
@@ -51,7 +62,7 @@ function RenderSuggestedPlaces() {
               ellipsizeMode="tail"
               style={{ maxWidth: 80 }}
             >
-              {item.name}
+              {item.placeName}
             </Text>
           </View>
         )}
@@ -59,11 +70,3 @@ function RenderSuggestedPlaces() {
     </View>
   );
 }
-
-const placesObj = [
-  { id: 1, name: "Harshil", image: homeBg },
-  { id: 2, name: "Goa", image: homeBg },
-  { id: 3, name: "Agra", image: homeBg },
-  { id: 4, name: "Shimla", image: homeBg },
-  { id: 5, name: "Udaipur", image: homeBg },
-];

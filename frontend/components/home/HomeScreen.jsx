@@ -18,8 +18,8 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import homeBg from "../../assets/images/home/homeBg.avif";
 import Header from "./header/Header";
 import Search from "./search/Search";
-import SuggestedPlaces from "./suggestedPlaces/SuggestedPlaces";
 import ShowTrips from "./showTrips/ShowTrips";
+import SuggestedPlacesCards from "./suggestedPlaces/SuggestedPlacesCards";
 
 export default function HomeScreen() {
   const insets = useSafeAreaInsets();
@@ -67,7 +67,7 @@ export default function HomeScreen() {
             className=" m-1 bg-stone-300/50"
             style={{ borderTopLeftRadius: 15, borderTopRightRadius: 15 }}
           >
-            <SuggestedPlaces></SuggestedPlaces>
+            <SuggestedPlacesCards></SuggestedPlacesCards>
 
             <ShowTrips></ShowTrips>
           </View>

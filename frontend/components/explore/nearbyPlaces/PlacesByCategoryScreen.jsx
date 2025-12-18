@@ -75,6 +75,9 @@ function RenderPlacesData({ placesData }) {
   const router = useRouter();
   return (
     <View className="flex-1 bg-white">
+      <Text className="text-xl font-semibold text-center text-purple-500">
+        Nearby Places
+      </Text>
       <FlatList
         data={placesData.features}
         keyExtractor={(item) => item.properties.place_id}
