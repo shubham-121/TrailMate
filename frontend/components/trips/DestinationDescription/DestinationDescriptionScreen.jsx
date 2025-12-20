@@ -5,6 +5,7 @@ import RNDateTimePicker from "@react-native-community/datetimepicker";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { Picker } from "@react-native-picker/picker";
+import { calculateDaysBetween } from "../../../utils/commonFunctions/calculateDaysBetween";
 
 const initialDateOne = new Date();
 const initialDateTwo = new Date();
@@ -16,9 +17,7 @@ export default function DestinationDescriptionScreen() {
   const [showDateOne, setShowDateOne] = useState(false);
   const [showDateTwo, setShowDateTwo] = useState(false);
 
-  const { top } = useSafeAreaInsets();
   const { destinationObj } = useLocalSearchParams();
-
   const destinationData = JSON.parse(destinationObj);
 
   const [formData, setFormData] = useState({
@@ -30,6 +29,8 @@ export default function DestinationDescriptionScreen() {
     numberOfDays: "",
     daySelector: "",
   });
+
+  const { top } = useSafeAreaInsets();
 
   // calculate the days difference btw toDate and fromDate after setting toDate
   useEffect(() => {
@@ -263,17 +264,4 @@ export default function DestinationDescriptionScreen() {
       </View>
     </View>
   );
-}
-
-function calculateDaysBetween(fromdDate, toDate) {
-  const from = new Date(fromdDate).getTime();
-  const to = new Date(toDate).getTime();
-
-  console.log("from and to: ", from, to);
-
-  const daysBetween = (to - from) / (1000 * 60 * 60 * 24);
-
-  console.log("Days btw: ", daysBetween);
-
-  return daysBetween;
 }

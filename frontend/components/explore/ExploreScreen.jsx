@@ -13,7 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setNearByPlacesCoords } from "../../redux/slices/nearByPlacesSlice";
 import MapComponent from "./MapComponent";
 import { deActivateCreateTripModal } from "../../redux/slices/createTripSlice";
-import { CreateTripDrawer } from "../trips/createTrip/CreateTripDrawer";
+import { TripDrawer } from "../trips/createTrip/TripDrawer";
 // import MapComponent from "./MapComponent";
 // import MapView from "react-native-maps";
 
@@ -137,7 +137,7 @@ export default function ExploreScreen() {
       )}
 
       {/* {isCreatingTrip && <CreateTripModal isCreatingTrip={isCreatingTrip} />} */}
-      {isCreatingTrip && <CreateTripDrawer isCreatingTrip={isCreatingTrip} />}
+      {isCreatingTrip && <TripDrawer isCreatingTrip={isCreatingTrip} />}
     </View>
   );
 }

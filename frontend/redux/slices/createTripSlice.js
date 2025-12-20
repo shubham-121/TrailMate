@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  isCreatingTrip: true, //change to false later on
+  isCreatingTrip: true, //change to false later on, for  trip drawer popup
   destinations: [], //for holding user location selected from the map to the redux then to DB
   tripObj: {}, //for temporary storage of data for formatting
 };
