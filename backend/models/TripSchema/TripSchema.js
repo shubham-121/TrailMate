@@ -3,48 +3,43 @@ const DestinationSchema = require("./DestinationSchema");
 
 const tripSchema = new mongoose.Schema(
   {
-    tripId: {
-      type: String,
-      required: true,
-      unique: true,
-    },
+    // tripId: {
+    //   type: String,
+    //   required: true,
+    // },
     userId: {
       type: String,
       required: true,
-      unique: true,
     },
-    tripName: {
+    tripTitle: {
       type: String,
       required: true,
     },
-    destinations: [DestinationSchema], //refrences to the Destination schema,
+
+    tripDestinations: [DestinationSchema], //refrences to the Destination schema,
 
     //other metadata related to the Trip
-    title: {
-      type: String,
+
+    tripStartDate: {
+      type: Date,
       required: true,
     },
 
-    startDate: {
-      type: String,
+    tripEndDate: {
+      type: Date,
       required: true,
     },
-
-    endDate: {
-      type: String,
-      required: true,
-    },
-    numberOfDays: {
+    tripNumberOfDays: {
       type: Number,
     },
-    description: {
+    tripDescription: {
       type: String,
     },
-    thumbnail: {
+    tripThumbnail: {
       //image cover
       type: String,
     },
-    category: {
+    tripCategory: {
       type: String,
       enum: ["Leisure", "Adventure", "Solo", "Family", "SightSeeing", "Other"],
     },

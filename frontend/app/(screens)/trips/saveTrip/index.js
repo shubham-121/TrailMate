@@ -1,11 +1,11 @@
 import { View, Text, StyleSheet } from "react-native";
 import React from "react";
-import CreateTripScreen from "../../../../components/trips/createTrip/CreateTripScreen";
+import ConfirmTripCreation from "../../../../components/trips/createTrip/ConfirmTripCreation";
 
 export default function SaveTrip() {
   return (
     <View style={{ flex: 1 }}>
-      <CreateTripScreen />
+      <ConfirmTripCreation />
     </View>
   );
 }

@@ -11,9 +11,7 @@ export default function CreateTripForm({ createTripData, setCreateTripData }) {
   const { destinations } = useSelector((store) => store.createTrip);
   const dispatch = useDispatch();
 
-  const [formData, setFormData] = useState({
-    tripName: "",
-  });
+  const [tripTitle, setTripTitle] = useState("");
 
   useEffect(() => {
     console.log("Destination obj updated : ", destinations);
@@ -57,6 +55,8 @@ export default function CreateTripForm({ createTripData, setCreateTripData }) {
             </Text>
 
             <TextInput
+              value={tripTitle}
+              onChangeText={(text) => setTripTitle(text)}
               placeholder="e.g. Shimla Diaries"
               className="border border-gray-300 rounded-md px-3 py-2 text-[15px] bg-white shadow-sm font-medium"
             />
@@ -136,7 +136,17 @@ export default function CreateTripForm({ createTripData, setCreateTripData }) {
           <View className="items-center">
             <Pressable
               className="m-4 rounded-full px-6 py-3 bg-purple-500/20"
-              onPress={() => router.push("/trips/saveTrip")}
+              onPress={() => {
+                if (!tripTitle)
+                  return alert(
+                    "Enter Trip Name First Before Proceeding Further"
+                  );
+
+                router.push({
+                  pathname: "/trips/saveTrip",
+                  params: { tripTitle },
+                });
+              }}
             >
               <Text className="text-center font-semibold text-lg">
                 Save Trip

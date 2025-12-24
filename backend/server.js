@@ -9,6 +9,7 @@ const login = require("./controllers/auth/login");
 const signup = require("./controllers/auth/signup");
 const verifyJWT = require("./controllers/auth/verifyJWT.js");
 const homeScreen = require("./controllers/home/homeScreen.js");
+const saveTrip = require("./controllers/trips/saveTrip.js");
 
 const app = express();
 app.use(express.json());
@@ -28,6 +29,8 @@ app.post("/login", login);
 // app.post("/verify", verifyJWT);
 
 app.get("/home", verifyJWT, homeScreen);
+
+app.post("/trip/saveTrip", saveTrip);
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => {
