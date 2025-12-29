@@ -11,7 +11,7 @@ export default function CreateTripForm({ createTripData, setCreateTripData }) {
   const { destinations } = useSelector((store) => store.createTrip);
   const dispatch = useDispatch();
 
-  const [tripTitle, setTripTitle] = useState("");
+  const [tripTitle, setTripTitle] = useState("My First Travel");
 
   useEffect(() => {
     console.log("Destination obj updated : ", destinations);

@@ -3,10 +3,14 @@ const Trips = require("../../models/TripSchema/TripSchema");
 async function saveTrip(req, res) {
   const { tripData, tripDetails } = req.body;
 
+  const { _id: userId, email: userEmail } = req.user;
+  // console.log("User body: ", user);
+
   if (!tripData || !tripDetails) {
-    return res
-      .status(400)
-      .json({ message: "Incmplete data , please send full data" });
+    return res.status(404).json({
+      message: "Incomplete data , please send full data",
+      statusMsg: "Missing Data",
+    });
   }
 
   console.log("save trip body: ", tripData, tripDetails);
@@ -49,7 +53,7 @@ async function saveTrip(req, res) {
 
   try {
     const tripObj = await Trips.create({
-      userId: "shubham1234",
+      userId: userId,
       tripTitle: tripDetails.tripTitle,
       tripStartDate: tripDetails.fromDate,
       tripEndDate: tripDetails.toDate,
@@ -62,17 +66,25 @@ async function saveTrip(req, res) {
     });
 
     if (!tripObj) {
-      console.log("Error in creating the trip in DB: ", tripObj);
-      return;
+      console.log("Cannn=ot create the trip in DB: ", tripObj);
+      return res.status(400).json({
+        message: "Error in saving the trip to the DB",
+        statusMsg: "Trip Saving Error",
+      });
     }
 
     console.log("Trip saved in the DB successfully: ", tripObj);
+
+    return res
+      .status(200)
+      .json({ message: "Trip saved successfully", statusMsg: "Trip Saved" });
   } catch (error) {
     console.log("Error in creating the trip in DB: ", error.message);
-    return;
+    return res.status(500).json({
+      message: "Server error while saving the trip",
+      statusMsg: error.message,
+    });
   }
-
-  return res.status(200).json({ message: "Save trip route" });
 }
 
 module.exports = saveTrip;

@@ -1,10 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit";
+//remove the default details later during production
+
+const localToken =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OTFiMGQzM2Y3ODIyM2Q5NzJiMDBlYTQiLCJlbWFpbCI6InNodWJoYW1AZ21haWwuY29tIiwiaWF0IjoxNzY2ODMzNTI3fQ.Pm7TVLBSjSuPmwgJDKN9Ix-7aOuWoC9Vr12u8p42Tu8";
 
 const initialState = {
   isAuthenticated: false,
-  access_token: "",
+  access_token: localToken,
   refresh_token: "",
-  authUserData: {},
+  authUserData: {
+    email: "shubham@gmail.com", //remove later
+    userId: "691b0d33f78223d972b00ea4", //remove later
+  },
 };
 
 export const authSlice = createSlice({

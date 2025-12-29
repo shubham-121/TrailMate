@@ -30,7 +30,7 @@ app.post("/login", login);
 
 app.get("/home", verifyJWT, homeScreen);
 
-app.post("/trip/saveTrip", saveTrip);
+app.post("/trip/saveTrip", verifyJWT, saveTrip);
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => {

@@ -41,8 +41,6 @@ async function login(req, res) {
       storedHashedPswd //hashed pswd in DB
     );
 
-    console.log("ispaswrod matched ", isPasswordMatch);
-
     if (!isPasswordMatch) {
       return res.status(401).json({
         message: "Incorrect password. Please try again.",
