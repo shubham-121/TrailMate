@@ -59,7 +59,7 @@ function LoginForm({ formData, setFormData, handleFormChange }) {
     }
 
     try {
-      const res = await fetch(`${baseUrl}/login`, {
+      const res = await fetch(`${baseUrl}/auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

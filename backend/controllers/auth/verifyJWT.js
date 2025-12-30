@@ -5,6 +5,8 @@ async function verifyJWT(req, res, next) {
 
   const { authorization } = body;
 
+  console.log("authorization: ", authorization);
+
   const jwt_token = authorization && authorization.split(" ")[1];
 
   console.log("verifyjwt route: ", body, jwt_token);

@@ -13,16 +13,17 @@ import Entypo from "@expo/vector-icons/Entypo";
 import ShowTripSkeletonLoader from "../../../utils/commonComponents/ShowTripSkeletonLoader";
 import { useRouter } from "expo-router";
 
-export default function ShowTrips() {
-  const [tripsPresent, setTripsPresent] = useState(true);
+export default function ShowTrips({ userTrips, setUserTrips }) {
+  // const [tripsPresent, setTripsPresent] = useState(true);
   const router = useRouter();
 
   return (
     <View className="px-4 mt-4">
       <FlatList
         scrollEnabled={false}
-        data={tripObj}
-        keyExtractor={(item) => item.id}
+        // data={tripObj}
+        data={userTrips}
+        keyExtractor={(item) => item._id}
         showsVerticalScrollIndicator={false}
         renderItem={({ item }) => <TripCard item={item} />}
       />
@@ -47,6 +48,7 @@ export default function ShowTrips() {
   );
 }
 function TripCard({ item }) {
+  console.log("trips is : ", item);
   return (
     <View className="bg-white rounded-2xl shadow-md mb-6 overflow-hidden p-2">
       {/* Image Section */}
@@ -59,7 +61,7 @@ function TripCard({ item }) {
       {/* Content */}
       <View className="p-4 flex-row justify-between">
         <View>
-          <Text className="text-lg font-semibold">{item.tripName}</Text>
+          <Text className="text-lg font-semibold">{item.tripTitle}</Text>
           <Text className="text-gray-500 text-sm">{item.location}</Text>
         </View>
 
@@ -85,7 +87,9 @@ function TripCard({ item }) {
               <Text className="text-gray-500 text-xs">Elevation</Text>
             </View>
             <View>
-              <Text className="text-black font-semibold">8h 15m</Text>
+              <Text className="text-black font-semibold">
+                {item.tripNumberOfDays} Days
+              </Text>
               <Text className="text-gray-500 text-xs">Duration</Text>
             </View>
           </View>
@@ -99,13 +103,13 @@ function TripCard({ item }) {
                   style={{ width: "60%" }}
                 />
               </View>
-              <Text className="text-gray-500 text-xs mt-1">
-                {item.level} Level
+              <Text className="text-gray-800 text-sm font-semibold mt-1">
+                Category: {item.tripCategory}
               </Text>
             </View>
             <View className=" flex-shrink">
-              <Text className="text-black font-semibold">
-                {item.rating} <Text className="text-yellow-500">⭐</Text>
+              <Text className="text-black font-semibold text-sm">
+                4.2 <Text className="text-yellow-500">⭐</Text>
               </Text>
               <Text className="text-gray-500 text-xs">Rating</Text>
             </View>

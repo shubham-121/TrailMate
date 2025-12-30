@@ -5,32 +5,22 @@ const connectToDB = require("./utils/connection.js");
 
 connectToDB();
 
-const login = require("./controllers/auth/login");
-const signup = require("./controllers/auth/signup");
 const verifyJWT = require("./controllers/auth/verifyJWT.js");
-const homeScreen = require("./controllers/home/homeScreen.js");
 const saveTrip = require("./controllers/trips/saveTrip.js");
+
+const tripRoutes = require("./routes/trip.routes.js");
+const authRoutes = require("./routes/auth.routes.js");
 
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
-app.get("/", (req, res) => {
-  return res.status(200).json({ message: "This is the index route" });
-});
+app.use("/auth", authRoutes);
+app.use("/trips", tripRoutes);
 
-// app.get("/signup", signup);
-app.post("/signup", signup);
-
-app.post("/login", login);
-// app.post("/login", login);
-
-// app.post("/verify", verifyJWT);
-
-app.get("/home", verifyJWT, homeScreen);
-
-app.post("/trip/saveTrip", verifyJWT, saveTrip);
+//trip save
+// app.post("/trips/saveTrip", verifyJWT, saveTrip);
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => {

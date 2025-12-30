@@ -60,7 +60,7 @@ function RegisterForm({ formData, setFormData, handleFormChange }) {
     }
 
     try {
-      const res = await fetch(`${baseUrl}/signup`, {
+      const res = await fetch(`${baseUrl}/auth/signup`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

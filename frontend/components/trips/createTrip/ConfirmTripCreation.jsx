@@ -96,13 +96,13 @@ function Form() {
 
     if (!access_token) {
       setErrorMsg("Please login again");
-      return;
+      return router.replace("/login");
     }
 
     setIsLoading(true);
 
     try {
-      const res = await fetch(`${baseUrl}/trip/saveTrip`, {
+      const res = await fetch(`${baseUrl}/trips/saveTrip`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
