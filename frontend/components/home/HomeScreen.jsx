@@ -4,9 +4,9 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import ShowTrips from "./showTrips/ShowTrips";
 import SuggestedPlacesCards from "./suggestedPlaces/SuggestedPlacesCards";
 import HeaderUi from "./HeaderUi";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { useState } from "react";
+
 import { useIsFocused } from "@react-navigation/native";
 
 const baseUrl = process.env.EXPO_PUBLIC_BASE_URL;
@@ -15,12 +15,17 @@ export default function HomeScreen() {
   const insets = useSafeAreaInsets();
 
   const { access_token } = useSelector((store) => store.authentication);
+  const isFocused = useIsFocused();
+
+  // console.log("Is focused: ", isFocused);
 
   const [userTrips, setUserTrips] = useState(null);
 
-  console.log("access token in home: ", access_token);
+  // console.log("access token in home: ", access_token);
 
   useEffect(() => {
+    if (!isFocused) return;
+
     if (!access_token) {
       console.log("No access token , return ...");
       return;
@@ -47,7 +52,7 @@ export default function HomeScreen() {
       console.log("User trips: ", data);
     }
     fetchUserTrips();
-  }, [access_token]);
+  }, [access_token, isFocused]);
 
   return (
     <ScrollView showsVerticalScrollIndicator={false}>

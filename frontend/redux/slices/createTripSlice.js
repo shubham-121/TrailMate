@@ -24,6 +24,7 @@ export const createTripSlice = createSlice({
       //creates the destination array for rendering in the drawer
       reducer(state, action) {
         console.log(" create trip Payload reached here: ", action.payload);
+
         state.destinations = [...state.destinations, action.payload];
 
         console.log("destinations state after update: ", state.destinations);

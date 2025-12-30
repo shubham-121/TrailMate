@@ -101,6 +101,8 @@ function Form() {
 
     setIsLoading(true);
 
+    console.log("Trip data finally: ", destinations);
+
     try {
       const res = await fetch(`${baseUrl}/trips/saveTrip`, {
         method: "POST",
@@ -155,9 +157,9 @@ function Form() {
       setIsLoading(false);
     } finally {
       setIsLoading(false);
-      setFormData(initialFormData);
+      // setFormData(initialFormData);
 
-      setTimeout(() => router.back(), 1000);
+      // setTimeout(() => router.back(), 1000);
     }
   }
 

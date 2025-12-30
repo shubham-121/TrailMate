@@ -1,6 +1,6 @@
 import * as Location from "expo-location";
 import { useContext, useEffect, useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, ToastAndroid, View } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import { useDispatch, useSelector } from "react-redux";
 import { MapRefContext } from "../../app/_layout";
@@ -99,16 +99,26 @@ export default function MapComponent({ location }) {
     //delete later
     console.log("updated user location is: ", location);
     console.log("marker updated on map: ", markerPosition);
-  }, [location, markerPosition]);
+
+    console.log("Trip data updated:", tripData);
+  }, [location, markerPosition, tripData]);
 
   async function reverseGeocodeLocation(coords) {
+    console.log("coords also: ", coords);
     try {
       const data = await Location.reverseGeocodeAsync(coords);
       console.log("reverse geocoded data: ", data);
       setMarkerData(data[0].formattedAddress);
-      setTripData(data[0]); //for sending data to redux
+      // setTripData(data[0]); //for sending data to redux
+
+      setTripData({ ...data[0], destinationCoords: coords });
     } catch (error) {
       console.error("Error in reverse geocoding", error.message);
+      ToastAndroid.BOTTOM(
+        "Error in getting details, try again by reloading app",
+        ToastAndroid.LONG
+      );
+      return;
     }
   }
 

@@ -12,6 +12,10 @@ import homeBg from "../../../assets/images/home/homeBg.avif";
 import Entypo from "@expo/vector-icons/Entypo";
 import ShowTripSkeletonLoader from "../../../utils/commonComponents/ShowTripSkeletonLoader";
 import { useRouter } from "expo-router";
+import { useContext } from "react";
+import { MapRefContext } from "../../../app/_layout";
+import { useDispatch, useSelector } from "react-redux";
+import { deActivateCreateTripModal } from "../../../redux/slices/createTripSlice";
 
 export default function ShowTrips({ userTrips, setUserTrips }) {
   // const [tripsPresent, setTripsPresent] = useState(true);
@@ -48,7 +52,44 @@ export default function ShowTrips({ userTrips, setUserTrips }) {
   );
 }
 function TripCard({ item }) {
-  console.log("trips is : ", item);
+  // console.log("trips is : ", item);
+  const { isCreatingTrip } = useSelector((store) => store.createTrip);
+  const dispatch = useDispatch();
+
+  const { mapRef } = useContext(MapRefContext);
+  const router = useRouter();
+
+  async function handleStartRoute() {
+    const { destinationCoords } = item.tripDestinations[0].destinationDetails;
+    console.log("start route:", destinationCoords);
+
+    //hide the trip drawer if active
+    if (isCreatingTrip) dispatch(deActivateCreateTripModal());
+
+    // open map section
+    router.push("/explore");
+
+    setTimeout(() => {
+      //animate to the map
+      mapRef.current.animateToRegion(
+        {
+          latitude: destinationCoords.lat,
+          longitude: destinationCoords.lng,
+          latitudeDelta: 0.01,
+          longitudeDelta: 0.01,
+        },
+        5000
+      );
+      // setMarkerPosition({
+      //   latitude: destinationCoords.lat,
+      //   longitude: destinationCoords.lon,
+      // });
+
+      // setIsPopupVisible(true);
+      console.log("animating...");
+    }, 1000);
+  }
+
   return (
     <View className="bg-white rounded-2xl shadow-md mb-6 overflow-hidden p-2">
       {/* Image Section */}
@@ -66,7 +107,10 @@ function TripCard({ item }) {
         </View>
 
         <View className="justify-center px-3 rounded-full bg-gray-300/30">
-          <Pressable className="flex-row items-center gap-2">
+          <Pressable
+            className="flex-row items-center gap-2"
+            onPress={handleStartRoute}
+          >
             <Text>Start Route</Text>
             <Entypo name="direction" size={24} color="black" />
           </Pressable>

@@ -12,8 +12,10 @@ router.use(verifyJWT);
 
 router.get("/", getUserTrips); //get all user existing trips if exist in DB
 router.get("/:id", getTripByID);
-router.get("/saveTrip", saveTrip);
+router.post("/saveTrip", saveTrip);
 
 module.exports = router;
 
 //routes here will be of : / , /:id , /trips etc
+
+// /trips/saveTrip

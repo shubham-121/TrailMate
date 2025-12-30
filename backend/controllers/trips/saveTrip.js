@@ -15,6 +15,8 @@ async function saveTrip(req, res) {
 
   console.log("save trip body: ", tripData, tripDetails);
 
+  // console.log("coords:", tripData?.[0]?.fullLocationData?.destinationCoords);
+
   const mappedDestinations = tripData.map((destination) => ({
     destinationId: String(destination.id),
 
@@ -33,8 +35,10 @@ async function saveTrip(req, res) {
       streetNumber: destination.fullLocationData.streetNumber,
       subregion: destination.fullLocationData.subregion,
       timezone: destination.fullLocationData.timezone,
-      lat: destination.fullLocationData.lat || null,
-      lng: destination.fullLocationData.lng || null,
+      destinationCoords: {
+        lat: destination.fullLocationData.destinationCoords.latitude,
+        lng: destination.fullLocationData.destinationCoords.longitude,
+      },
     },
 
     //user enetered destination metadata for each destination like notes, dates

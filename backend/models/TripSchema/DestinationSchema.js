@@ -52,11 +52,9 @@ const destinationSchema = new mongoose.Schema(
       timezone: {
         type: String,
       },
-      lat: {
-        type: Number,
-      },
-      lng: {
-        type: Number,
+      destinationCoords: {
+        lat: { type: Number },
+        lng: { type: Number },
       },
     },
 
