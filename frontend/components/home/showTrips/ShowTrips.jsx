@@ -1,21 +1,15 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  FlatList,
-  Image,
-  ScrollView,
-  Pressable,
-} from "react-native";
-import React, { useState } from "react";
+import { View, Text, FlatList, Image, Pressable } from "react-native";
+import React, { useContext } from "react";
 import homeBg from "../../../assets/images/home/homeBg.avif";
 import Entypo from "@expo/vector-icons/Entypo";
 import ShowTripSkeletonLoader from "../../../utils/commonComponents/ShowTripSkeletonLoader";
 import { useRouter } from "expo-router";
-import { useContext } from "react";
-import { MapRefContext } from "../../../app/_layout";
+
 import { useDispatch, useSelector } from "react-redux";
 import { deActivateCreateTripModal } from "../../../redux/slices/createTripSlice";
+import { MapRefContext } from "../../../utils/context/MapRefProvider";
+import { MapUIContext } from "../../../utils/context/MapUIContext";
+import { reverseGeocodeLocation } from "../../../utils/commonFunctions/reverseGeocodeLocation";
 
 export default function ShowTrips({ userTrips, setUserTrips }) {
   // const [tripsPresent, setTripsPresent] = useState(true);
@@ -53,6 +47,10 @@ export default function ShowTrips({ userTrips, setUserTrips }) {
 }
 function TripCard({ item }) {
   // console.log("trips is : ", item);
+
+  const { setMarkerPosition, setIsPopupVisible, setMarkerData } =
+    useContext(MapUIContext);
+
   const { isCreatingTrip } = useSelector((store) => store.createTrip);
   const dispatch = useDispatch();
 
@@ -63,14 +61,14 @@ function TripCard({ item }) {
     const { destinationCoords } = item.tripDestinations[0].destinationDetails;
     console.log("start route:", destinationCoords);
 
-    //hide the trip drawer if active
+    //1-hide the trip drawer if active
     if (isCreatingTrip) dispatch(deActivateCreateTripModal());
 
-    // open map section
+    //2- open map section
     router.push("/explore");
 
-    setTimeout(() => {
-      //animate to the map
+    //3- animate to the first destination present in DB to the map
+    setTimeout(async () => {
       mapRef.current.animateToRegion(
         {
           latitude: destinationCoords.lat,
@@ -80,12 +78,30 @@ function TripCard({ item }) {
         },
         5000
       );
-      // setMarkerPosition({
+
+      setMarkerPosition({
+        latitude: destinationCoords.lat,
+        longitude: destinationCoords.lng,
+      });
+
+      //setMarkerData  by reverse geocoding
+
+      const reverseGeocodeData = await reverseGeocodeLocation({
+        latitude: destinationCoords.lat,
+        longitude: destinationCoords.lng,
+      });
+
+      console.log("reverse geocode function return data: ", reverseGeocodeData);
+
+      setMarkerData(reverseGeocodeData[0].formattedAddress);
+
+      setIsPopupVisible(true);
+
+      // reverseGeocodeLocation({
       //   latitude: destinationCoords.lat,
-      //   longitude: destinationCoords.lon,
+      //   longitude: destinationCoords.lng,
       // });
 
-      // setIsPopupVisible(true);
       console.log("animating...");
     }, 1000);
   }
@@ -169,37 +185,3 @@ function TripCard({ item }) {
     </View>
   );
 }
-
-const tripObj = [
-  {
-    id: 1,
-    tripName: "Shimla Diaries",
-    location: "Himachal Pradesh, India",
-    duration: "7 days",
-    distance: "450km",
-    elevation: "1900 m",
-    level: "easy",
-    rating: "4.2",
-  },
-  {
-    id: 2,
-    tripName: "Goa Coastal Escape",
-    location: "Goa, India",
-    duration: "5 days",
-    distance: "620km",
-    elevation: "15 m",
-    level: "easy",
-    rating: "4.5",
-  },
-
-  {
-    id: 3,
-    tripName: "Jaipur Heritage Trail",
-    location: "Rajasthan, India",
-    duration: "4 days",
-    distance: "280km",
-    elevation: "431 m",
-    level: "easy",
-    rating: "4.1",
-  },
-];

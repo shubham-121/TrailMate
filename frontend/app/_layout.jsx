@@ -5,41 +5,35 @@ import { Provider } from "react-redux";
 import { store } from "../redux/store";
 import { Drawer } from "expo-router/drawer";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-
-export const MapRefContext = createContext({
-  mapRef: null,
-  recenter: () => {},
-});
+import { useState } from "react";
+import { MapUIProvider } from "../utils/context/MapUIContext";
+import { MapRefProvider } from "../utils/context/MapRefProvider";
 
 export default function RootLayout() {
-  const mapRef = useRef(null); //for passing the ref across the application
-
-  const recenter = (region) => {
-    if (mapRef.current) mapRef.current?.animateToRegion(region, 5000);
-  };
-
   return (
     <>
       <GestureHandlerRootView style={{ flex: 1 }}>
-        <MapRefContext.Provider value={{ mapRef, recenter }}>
-          <Provider store={store}>
-            <StatusBar
-              style="auto "
-              translucent={false}
-              backgroundColor="transparent"
-            ></StatusBar>
-            <Stack screenOptions={{ headerShown: false }}>
-              <Stack.Screen
-                name="(tabs)"
-                options={{ headerShown: false }}
-              ></Stack.Screen>
-              <Stack.Screen
-                name="(screens)"
-                options={{ headerShown: false }}
-              ></Stack.Screen>
-            </Stack>
-          </Provider>
-        </MapRefContext.Provider>
+        <MapRefProvider>
+          <MapUIProvider>
+            <Provider store={store}>
+              <StatusBar
+                style="auto "
+                translucent={false}
+                backgroundColor="transparent"
+              ></StatusBar>
+              <Stack screenOptions={{ headerShown: false }}>
+                <Stack.Screen
+                  name="(tabs)"
+                  options={{ headerShown: false }}
+                ></Stack.Screen>
+                <Stack.Screen
+                  name="(screens)"
+                  options={{ headerShown: false }}
+                ></Stack.Screen>
+              </Stack>
+            </Provider>
+          </MapUIProvider>
+        </MapRefProvider>
       </GestureHandlerRootView>
     </>
   );

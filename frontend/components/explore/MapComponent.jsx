@@ -3,21 +3,34 @@ import { useContext, useEffect, useState } from "react";
 import { StyleSheet, Text, ToastAndroid, View } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import { useDispatch, useSelector } from "react-redux";
-import { MapRefContext } from "../../app/_layout";
 import {
   setNearByPlacesCoords,
   setShowOnMapCoords,
 } from "../../redux/slices/nearByPlacesSlice";
 import SearchBar from "./SearchBar";
 import { createTrip } from "../../redux/slices/createTripSlice";
+import { MapUIContext } from "../../utils/context/MapUIContext";
+import { MapRefContext } from "../../utils/context/MapRefProvider";
+import { useLocalSearchParams } from "expo-router";
 
 export default function MapComponent({ location }) {
   //   const { latitude, longitude } = location;
 
-  const [markerPosition, setMarkerPosition] = useState(null); //marker for user click on map
-  const [isPopupVisible, setIsPopupVisible] = useState(false); //popup for location details of place clicked by user where marker is placed
-  const [markerData, setMarkerData] = useState(null); //holds the marker data after reverse geocoding
-  const [tripData, setTripData] = useState(null); //for createTripSlice data in redux
+  // const [markerPosition, setMarkerPosition] = useState(null); //marker for user click on map
+  // const [isPopupVisible, setIsPopupVisible] = useState(false); //popup for location details of place clicked by user where marker is placed
+  // const [markerData, setMarkerData] = useState(null); //holds the marker data after reverse geocoding
+  // const [tripData, setTripData] = useState(null); //for createTripSlice data in redux
+
+  const {
+    markerPosition,
+    setMarkerPosition,
+    isPopupVisible,
+    setIsPopupVisible,
+    markerData,
+    setMarkerData,
+    tripData,
+    setTripData,
+  } = useContext(MapUIContext);
 
   //animating the map stuff here
   // const mapRef = useRef(null); //for moving map animation when user seraches a location
@@ -109,9 +122,8 @@ export default function MapComponent({ location }) {
       const data = await Location.reverseGeocodeAsync(coords);
       console.log("reverse geocoded data: ", data);
       setMarkerData(data[0].formattedAddress);
-      // setTripData(data[0]); //for sending data to redux
 
-      setTripData({ ...data[0], destinationCoords: coords });
+      setTripData({ ...data[0], destinationCoords: coords }); //for sending data to redux
     } catch (error) {
       console.error("Error in reverse geocoding", error.message);
       ToastAndroid.BOTTOM(
