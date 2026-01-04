@@ -12,11 +12,11 @@ export const createTripSlice = createSlice({
   reducers: {
     activateCreateTripModal(state, action) {
       //activates the trip drawer
-      console.log("createTripSlice modal activated");
+      // console.log("createTripSlice modal activated");
       state.isCreatingTrip = true;
     },
     deActivateCreateTripModal(state, action) {
-      console.log("createTripSlice modal deactivated");
+      // console.log("createTripSlice modal deactivated");
       state.isCreatingTrip = false;
     },
 
@@ -24,6 +24,7 @@ export const createTripSlice = createSlice({
       //creates the destination array for rendering in the drawer
       reducer(state, action) {
         console.log(" create trip Payload reached here: ", action.payload);
+        console.log(" destination coords: ", action.payload.destinationCoords);
 
         state.destinations = [...state.destinations, action.payload];
 
@@ -44,7 +45,7 @@ export const createTripSlice = createSlice({
 
     removeDestination(state, action) {
       const { filterId } = action.payload;
-      console.log("remove destination with filter id:", filterId);
+      // console.log("remove destination with filter id:", filterId);
 
       const newDestinations = state.destinations.filter(
         (item, index) => item.id !== filterId
@@ -52,11 +53,11 @@ export const createTripSlice = createSlice({
 
       state.destinations = newDestinations;
 
-      console.log(
-        "Updated destination obj is:",
-        newDestinations,
-        state.destinations
-      );
+      // console.log(
+      //   "Updated destination obj is:",
+      //   newDestinations,
+      //   state.destinations
+      // );
     },
     clearTrip(state) {
       //clear the destination array to initial after creation of a trip

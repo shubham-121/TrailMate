@@ -11,6 +11,8 @@ export default function DestinationDetailsScreen() {
   const { clickedDestinationObj } = useLocalSearchParams();
   const clickedDestination = JSON.parse(clickedDestinationObj);
 
+  console.log("Show details:", clickedDestination);
+
   const { displayName, fullLocationData, createdAt, id } = clickedDestination;
 
   return (

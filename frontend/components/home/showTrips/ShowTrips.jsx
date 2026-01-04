@@ -10,6 +10,7 @@ import { deActivateCreateTripModal } from "../../../redux/slices/createTripSlice
 import { MapRefContext } from "../../../utils/context/MapRefProvider";
 import { MapUIContext } from "../../../utils/context/MapUIContext";
 import { reverseGeocodeLocation } from "../../../utils/commonFunctions/reverseGeocodeLocation";
+import { startTrip } from "../../../redux/slices/tripNavigationSlice";
 
 export default function ShowTrips({ userTrips, setUserTrips }) {
   // const [tripsPresent, setTripsPresent] = useState(true);
@@ -46,20 +47,35 @@ export default function ShowTrips({ userTrips, setUserTrips }) {
   );
 }
 function TripCard({ item }) {
-  // console.log("trips is : ", item);
+  const tripLength = item.tripDestinations.length;
+
+  // console.log(
+  //   "trips is : ",
+  //   item,
+  //   "and total destination present in a trips is: ",
+  //   tripLength
+  // );
 
   const { setMarkerPosition, setIsPopupVisible, setMarkerData } =
     useContext(MapUIContext);
+  const { mapRef } = useContext(MapRefContext);
 
   const { isCreatingTrip } = useSelector((store) => store.createTrip);
-  const dispatch = useDispatch();
 
-  const { mapRef } = useContext(MapRefContext);
   const router = useRouter();
+  const dispatch = useDispatch();
 
   async function handleStartRoute() {
     const { destinationCoords } = item.tripDestinations[0].destinationDetails;
-    console.log("start route:", destinationCoords);
+    // const allTripDestinations = item.tripDestinations; //contains all destinations of one trip
+
+    //prettier-ignore
+    const {tripDestinations:allTripDestinations, _id:tripId,  tripTitle, userId}=item
+
+    // console.log("start route:", destinationCoords);
+    // console.log("current destination: ", item.tripDestinations[0]);
+
+    // console.log("Item is: ", item);
 
     //1-hide the trip drawer if active
     if (isCreatingTrip) dispatch(deActivateCreateTripModal());
@@ -85,26 +101,26 @@ function TripCard({ item }) {
       });
 
       //setMarkerData  by reverse geocoding
-
       const reverseGeocodeData = await reverseGeocodeLocation({
         latitude: destinationCoords.lat,
         longitude: destinationCoords.lng,
       });
 
-      console.log("reverse geocode function return data: ", reverseGeocodeData);
+      // console.log("reverse geocode function return data: ", reverseGeocodeData);
 
       setMarkerData(reverseGeocodeData[0].formattedAddress);
 
       setIsPopupVisible(true);
 
-      // reverseGeocodeLocation({
-      //   latitude: destinationCoords.lat,
-      //   longitude: destinationCoords.lng,
-      // });
-
       console.log("animating...");
+
+      //trip navigation logic here
+      // dispatch(startTrip({ tripLength, firstDestination }));
+      dispatch(startTrip({ allTripDestinations, tripId }));
     }, 1000);
   }
+
+  const width = getStaticDifficulty(item);
 
   return (
     <View className="bg-white rounded-2xl shadow-md mb-6 overflow-hidden p-2">
@@ -155,23 +171,31 @@ function TripCard({ item }) {
           </View>
 
           {/* row 2 */}
-          <View className="flex-row gap-2 px-2 py-2 justify-between">
-            <View className="mt-4 flex-shrink">
-              <View className="h-2 bg-gray-200 rounded-full w-24 overflow-hidden">
+          <View className="flex-row px-2 py-2 justify-between items-center">
+            {/* Difficulty */}
+            <View className="flex-1 mr-2">
+              <Text className="text-gray-700 text-sm">Difficulty</Text>
+              <View className="h-2 bg-gray-200 rounded-full w-full overflow-hidden mt-1">
                 <View
                   className="h-2 bg-pink-500 rounded-full"
-                  style={{ width: "60%" }}
+                  style={{ width: `${width}%` }}
                 />
               </View>
-              <Text className="text-gray-800 text-sm font-semibold mt-1">
-                Category: {item.tripCategory}
-              </Text>
+
+              <View className="self-start mt-2 bg-pink-100 px-3 py-1 rounded-full">
+                <Text className="text-pink-700 text-xs font-semibold">
+                  {item.tripCategory}
+                </Text>
+              </View>
             </View>
-            <View className=" flex-shrink">
+
+            {/* Rating */}
+            <View className="flex-1 ml-2 items-center">
+              <Text className="text-gray-500 text-md">Rating</Text>
+
               <Text className="text-black font-semibold text-sm">
                 4.2 <Text className="text-yellow-500">⭐</Text>
               </Text>
-              <Text className="text-gray-500 text-xs">Rating</Text>
             </View>
           </View>
         </View>
@@ -184,4 +208,17 @@ function TripCard({ item }) {
       </View>
     </View>
   );
+}
+
+function getStaticDifficulty(item) {
+  const difficultyMap = {
+    Easy: 30,
+    Moderate: 60,
+    Hard: 90,
+  };
+
+  const difficulty = item.tripDifficulty;
+  const width = difficultyMap[difficulty] || 40;
+
+  return width;
 }

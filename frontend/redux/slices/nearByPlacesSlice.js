@@ -15,13 +15,13 @@ export const nearByPlacesSlice = createSlice({
   initialState,
   reducers: {
     setNearByPlacesCoords(state, action) {
-      console.log("nearby places slice: ", action.payload);
+      // console.log("nearby places slice: ", action.payload);
       state.selectedCoords = {
         lat: action.payload.latitude,
         lon: action.payload.longitude,
       };
 
-      console.log("Updated coords for nearby places : ", state.selectedCoords);
+      // console.log("Updated coords for nearby places : ", state.selectedCoords);
     },
     setNearByPlacesCategory(state, action) {},
 
@@ -34,7 +34,7 @@ export const nearByPlacesSlice = createSlice({
           lon: action.payload.lon,
         };
       }
-      console.log(" showOnMapCoords updated in redux: ", state.showOnMapCoords);
+      // console.log(" showOnMapCoords updated in redux: ", state.showOnMapCoords);
     },
   },
 });

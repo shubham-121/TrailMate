@@ -1,6 +1,6 @@
 import * as Location from "expo-location";
-import { useContext, useEffect, useState } from "react";
-import { StyleSheet, Text, ToastAndroid, View } from "react-native";
+import { useContext, useEffect } from "react";
+import { StyleSheet, ToastAndroid } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -8,10 +8,12 @@ import {
   setShowOnMapCoords,
 } from "../../redux/slices/nearByPlacesSlice";
 import SearchBar from "./SearchBar";
-import { createTrip } from "../../redux/slices/createTripSlice";
+
 import { MapUIContext } from "../../utils/context/MapUIContext";
 import { MapRefContext } from "../../utils/context/MapRefProvider";
-import { useLocalSearchParams } from "expo-router";
+
+import { TripModePopup } from "./popups/TripModePopup";
+import { ExploreModePopup } from "./popups/ExploreModePopup";
 
 export default function MapComponent({ location }) {
   //   const { latitude, longitude } = location;
@@ -37,6 +39,10 @@ export default function MapComponent({ location }) {
   const { latitude, longitude } = useSelector((store) => store.searchBar);
 
   const { showOnMapCoords } = useSelector((store) => store.nearByPlaces);
+
+  const { isTripNavigationMode, currentDestinationData } = useSelector(
+    (store) => store.tripNavigation
+  );
 
   const dispatch = useDispatch();
 
@@ -107,14 +113,31 @@ export default function MapComponent({ location }) {
     }
   }, [showOnMapCoords]);
 
-  //random useefect delete later
+  //useefect for tripNavigationMode
   useEffect(() => {
-    //delete later
-    console.log("updated user location is: ", location);
-    console.log("marker updated on map: ", markerPosition);
+    if (!currentDestinationData || !mapRef.current || !isTripNavigationMode)
+      return;
 
-    console.log("Trip data updated:", tripData);
-  }, [location, markerPosition, tripData]);
+    const { destinationCoords } = currentDestinationData.destinationDetails;
+
+    const region = {
+      latitude: destinationCoords.lat,
+      longitude: destinationCoords.lng,
+      latitudeDelta: 0.05,
+      longitudeDelta: 0.05,
+    };
+
+    //map animation for Next destination:
+
+    mapRef.current.animateToRegion(region, 1200);
+
+    setMarkerPosition({
+      latitude: destinationCoords.lat,
+      longitude: destinationCoords.lng,
+    });
+
+    setIsPopupVisible(true);
+  }, [currentDestinationData, isTripNavigationMode]);
 
   async function reverseGeocodeLocation(coords) {
     console.log("coords also: ", coords);
@@ -148,6 +171,8 @@ export default function MapComponent({ location }) {
         }}
         ref={mapRef}
         onPress={(e) => {
+          if (isTripNavigationMode) return; //if active dont allow any marker and popups during trip navigation
+
           const coords = e.nativeEvent.coordinate;
           setMarkerPosition(coords);
           setIsPopupVisible(true);
@@ -195,44 +220,33 @@ export default function MapComponent({ location }) {
         )}
       </MapView>
 
-      {isPopupVisible && markerPosition && (
-        <View style={styles.popup}>
-          <Text style={styles.popupTitle}>Selected Point</Text>
-
-          <View className=" flex-row justify-between m-2">
-            <Text style={styles.popupText}>
-              Latitude: {markerPosition.latitude.toFixed(5)}
-            </Text>
-            <Text style={styles.popupText}>
-              Longitude: {markerPosition.longitude.toFixed(5)}
-            </Text>
-          </View>
-          <Text style={styles.popupText}>{markerData ? markerData : " "}</Text>
-
-          <View className=" flex-row justify-around">
-            <Text
-              style={styles.closeButton}
-              onPress={() => setIsPopupVisible(false)}
-            >
-              Dismiss
-            </Text>
-
-            <Text
-              style={styles.closeButton}
-              onPress={() => dispatch(createTrip(tripData))}
-              //trigger dispatch action here with api data
-            >
-              Add To Trip
-            </Text>
-          </View>
-        </View>
-      )}
+      {/* show popup based on 2 different modes: explore mode and trip navigation mode */}
+      {isTripNavigationMode
+        ? isPopupVisible &&
+          markerPosition && (
+            <TripModePopup
+              markerPosition={markerPosition}
+              markerData={markerData}
+              setIsPopupVisible={setIsPopupVisible}
+              tripData={tripData}
+              setMarkerPosition={setMarkerPosition}
+            />
+          )
+        : isPopupVisible &&
+          markerPosition && (
+            <ExploreModePopup
+              markerPosition={markerPosition}
+              markerData={markerData}
+              setIsPopupVisible={setIsPopupVisible}
+              tripData={tripData}
+            />
+          )}
     </>
   );
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",

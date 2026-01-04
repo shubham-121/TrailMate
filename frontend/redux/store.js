@@ -3,6 +3,7 @@ import authenticationReducer from "./slices/authSlice";
 import nearByPlacesSliceReducer from "./slices/nearByPlacesSlice";
 import searchBarSliceReducer from "./slices/searchBarSlice";
 import createTripSliceReducer from "./slices/createTripSlice";
+import tripNavigationSliceReducer from "./slices/tripNavigationSlice";
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
     searchBar: searchBarSliceReducer,
     nearByPlaces: nearByPlacesSliceReducer,
     createTrip: createTripSliceReducer,
+    tripNavigation: tripNavigationSliceReducer,
   },
 });
 
