@@ -1,11 +1,10 @@
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import { createContext, useRef } from "react";
 import { Provider } from "react-redux";
 import { store } from "../redux/store";
-import { Drawer } from "expo-router/drawer";
+
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { useState } from "react";
+
 import { MapUIProvider } from "../utils/context/MapUIContext";
 import { MapRefProvider } from "../utils/context/MapRefProvider";
 

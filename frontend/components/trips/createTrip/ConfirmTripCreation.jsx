@@ -10,7 +10,6 @@ import React, { useEffect, useState } from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import RNDateTimePicker from "@react-native-community/datetimepicker";
 import { calculateDaysBetween } from "../../../utils/commonFunctions/calculateDaysBetween";
-import { Picker } from "@react-native-picker/picker";
 import { ScrollView } from "react-native-gesture-handler";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { formatString } from "../../../utils/commonFunctions/formatString";
@@ -92,6 +91,8 @@ function Form() {
   }
 
   async function handleFormSubmission() {
+    //make call to the server and check also if the current saaved trip exist already or not. Helps in preventing same trip twice
+
     if (!destinations || destinations.length === 0) return; //early return if nothing if none destination exists in redux
 
     if (!access_token) {
@@ -157,9 +158,9 @@ function Form() {
       setIsLoading(false);
     } finally {
       setIsLoading(false);
-      // setFormData(initialFormData);
+      setFormData(initialFormData);
 
-      // setTimeout(() => router.back(), 1000);
+      setTimeout(() => router.back(), 1000);
     }
   }
 

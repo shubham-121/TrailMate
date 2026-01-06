@@ -2,20 +2,17 @@ import * as Location from "expo-location";
 import { useEffect, useState } from "react";
 import {
   ActivityIndicator,
-  Modal,
   Pressable,
   StyleSheet,
-  Text,
   ToastAndroid,
+  Image,
   View,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { setNearByPlacesCoords } from "../../redux/slices/nearByPlacesSlice";
 import MapComponent from "./MapComponent";
-import { deActivateCreateTripModal } from "../../redux/slices/createTripSlice";
+import { activateCreateTripModal } from "../../redux/slices/createTripSlice";
 import { TripDrawer } from "../trips/createTrip/TripDrawer";
-// import MapComponent from "./MapComponent";
-// import MapView from "react-native-maps";
 
 export default function ExploreScreen() {
   const [location, setLocation] = useState({
@@ -138,6 +135,22 @@ export default function ExploreScreen() {
 
       {/* {isCreatingTrip && <CreateTripModal isCreatingTrip={isCreatingTrip} />} */}
       {isCreatingTrip && <TripDrawer isCreatingTrip={isCreatingTrip} />}
+
+      {/* show a create a trip button  */}
+
+      {!isCreatingTrip && (
+        <View className="absolute right-1 bottom-7 rounded-full ">
+          <Pressable onPress={() => dispatch(activateCreateTripModal())}>
+            <Image
+              style={{ height: 50, width: 50, borderRadius: 50 }}
+              resizeMode="contain"
+              source={{
+                uri: "https://e7.pngegg.com/pngimages/851/507/png-clipart-computer-icons-button-create-logo-aqua-thumbnail.png",
+              }}
+            />
+          </Pressable>
+        </View>
+      )}
     </View>
   );
 }

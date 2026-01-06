@@ -1,7 +1,6 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
 import React from "react";
-import RegisterScreen from "../../components/auth/Signup";
-import LoginScreen from "../../components/auth/Login";
+
 import HomeScreen from "../../components/home/HomeScreen";
 
 export default function HomeTab() {

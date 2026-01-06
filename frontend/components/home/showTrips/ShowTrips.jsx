@@ -2,11 +2,13 @@ import { View, Text, FlatList, Image, Pressable } from "react-native";
 import React, { useContext } from "react";
 import homeBg from "../../../assets/images/home/homeBg.avif";
 import Entypo from "@expo/vector-icons/Entypo";
-import ShowTripSkeletonLoader from "../../../utils/commonComponents/ShowTripSkeletonLoader";
 import { useRouter } from "expo-router";
 
 import { useDispatch, useSelector } from "react-redux";
-import { deActivateCreateTripModal } from "../../../redux/slices/createTripSlice";
+import {
+  activateCreateTripModal,
+  deActivateCreateTripModal,
+} from "../../../redux/slices/createTripSlice";
 import { MapRefContext } from "../../../utils/context/MapRefProvider";
 import { MapUIContext } from "../../../utils/context/MapUIContext";
 import { reverseGeocodeLocation } from "../../../utils/commonFunctions/reverseGeocodeLocation";
@@ -15,6 +17,14 @@ import { startTrip } from "../../../redux/slices/tripNavigationSlice";
 export default function ShowTrips({ userTrips, setUserTrips }) {
   // const [tripsPresent, setTripsPresent] = useState(true);
   const router = useRouter();
+  const dispatch = useDispatch();
+  // const { isCreatingTrip } = useSelector((store) => store.createTrip);
+
+  function handleCreateNewTrip() {
+    router.push("/explore");
+
+    dispatch(activateCreateTripModal());
+  }
 
   return (
     <View className="px-4 mt-4">
@@ -34,7 +44,10 @@ export default function ShowTrips({ userTrips, setUserTrips }) {
         >
           <Text className="text-center font-semibold  text-lg">See More</Text>
         </Pressable>
-        <Pressable className=" m-2 p-3 rounded-[20px]  border-gray-500 bg-[#d89cef]">
+        <Pressable
+          className=" m-2 p-3 rounded-[20px]  border-gray-500 bg-[#d89cef]"
+          onPress={handleCreateNewTrip}
+        >
           <Text className="text-center font-semibold  text-lg">
             Create A New Trip +
           </Text>
@@ -42,12 +55,12 @@ export default function ShowTrips({ userTrips, setUserTrips }) {
       </View>
 
       {/* skeleton loader for loading the trips in home screen */}
-      <ShowTripSkeletonLoader />
+      {/* <ShowTripSkeletonLoader /> */}
     </View>
   );
 }
 function TripCard({ item }) {
-  const tripLength = item.tripDestinations.length;
+  // const tripLength = item.tripDestinations.length;
 
   // console.log(
   //   "trips is : ",
@@ -172,7 +185,6 @@ function TripCard({ item }) {
 
           {/* row 2 */}
           <View className="flex-row px-2 py-2 justify-between items-center">
-            {/* Difficulty */}
             <View className="flex-1 mr-2">
               <Text className="text-gray-700 text-sm">Difficulty</Text>
               <View className="h-2 bg-gray-200 rounded-full w-full overflow-hidden mt-1">
@@ -189,7 +201,6 @@ function TripCard({ item }) {
               </View>
             </View>
 
-            {/* Rating */}
             <View className="flex-1 ml-2 items-center">
               <Text className="text-gray-500 text-md">Rating</Text>
 
@@ -200,7 +211,7 @@ function TripCard({ item }) {
           </View>
         </View>
 
-        {/*child-2 map thumb here */}
+        {/* map thumbnail here */}
         <View className="flex-[0.8] bg-gray-300 rounded-2xl justify-center items-center shadow-sm m-2 min-w-[10px]">
           <Text className="text-xs text-gray-600">🗺️</Text>
           <Text className="text-[10px] text-gray-500 mt-1">View Map</Text>
