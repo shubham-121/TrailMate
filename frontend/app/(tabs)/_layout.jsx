@@ -13,7 +13,7 @@ export default function TabLayout() {
             <Ionicons name="home" size={20} color="skyblue" />
           ),
         }}
-      ></Tabs.Screen>
+      />
 
       <Tabs.Screen
         name="explore"
@@ -23,7 +23,7 @@ export default function TabLayout() {
             <Ionicons name="compass" size={20} color="skyblue" />
           ),
         }}
-      ></Tabs.Screen>
+      />
 
       <Tabs.Screen
         name="profile"
@@ -33,7 +33,7 @@ export default function TabLayout() {
             <Ionicons name="person" size={20} color="skyblue" />
           ),
         }}
-      ></Tabs.Screen>
+      />
 
       <Tabs.Screen
         name="favourites"
@@ -43,7 +43,7 @@ export default function TabLayout() {
             <Ionicons name="person" size={20} color="skyblue" />
           ),
         }}
-      ></Tabs.Screen>
+      />
     </Tabs>
   );
 }

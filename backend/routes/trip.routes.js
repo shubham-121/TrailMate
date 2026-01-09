@@ -1,7 +1,7 @@
 const express = require("express");
 
 const getUserTrips = require("../controllers/home/getUserTrips");
-const getTripByID = require("../controllers/home/tripById");
+const getTripByID = require("../controllers/home/getTripByID");
 const saveTrip = require("../controllers/trips/saveTrip");
 const Trips = require("../models/TripSchema/TripSchema");
 

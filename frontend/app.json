@@ -23,7 +23,12 @@
         "android.permission.ACCESS_COARSE_LOCATION",
         "android.permission.ACCESS_FINE_LOCATION"
       ],
-      "package": "com.shubham_bhatt.trailmate"
+      "package": "com.shubham_bhatt.trailmate",
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyBs5q_tyJiT9Odd1iwPM3aez0cjyNOYXQk"
+        }
+      }
     },
     "web": {
       "output": "static",

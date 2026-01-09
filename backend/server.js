@@ -16,6 +16,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
+// app.use("/", (req, res) => {
+//   return res.status(200).send("API is working , home page");
+// });
+
 app.use("/auth", authRoutes);
 app.use("/trips", tripRoutes);
 

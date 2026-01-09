@@ -19,21 +19,23 @@ export default function RootLayout() {
                 style="auto "
                 translucent={false}
                 backgroundColor="transparent"
-              ></StatusBar>
-              <Stack screenOptions={{ headerShown: false }}>
-                <Stack.Screen
-                  name="(tabs)"
-                  options={{ headerShown: false }}
-                ></Stack.Screen>
-                <Stack.Screen
-                  name="(screens)"
-                  options={{ headerShown: false }}
-                ></Stack.Screen>
-              </Stack>
+              />
+              <Stack screenOptions={{ headerShown: false }} />
             </Provider>
           </MapUIProvider>
         </MapRefProvider>
       </GestureHandlerRootView>
     </>
   );
+}
+
+{
+  /* <Stack.Screen
+                  name="(tabs)"
+                  options={{ headerShown: false }}
+                ></Stack.Screen>
+                <Stack.Screen
+                  name="(screens)"
+                  options={{ headerShown: false }}
+                ></Stack.Screen> */
 }
