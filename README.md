@@ -63,7 +63,7 @@ This project is being actively developed and continuously improved.
 
 If you find this project interesting, feel free to collaborate and star the repo!
 
-Download Link:
-https://expo.dev/accounts/shubham_bhatt/projects/trailmate/builds/df5dea9d-e47d-41e4-839c-d0bc1af26f36
+Download Link (Try Here):
+https://expo.dev/accounts/shubham_bhatt/projects/trailmate/builds/ee851ff4-0a45-4966-a4eb-61fa7a0dbb07
 
 (Note- app is currently in development, this features a small functioning of my app)
