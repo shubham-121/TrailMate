@@ -1,6 +1,6 @@
 import * as Location from "expo-location";
 import { useContext, useEffect } from "react";
-import { StyleSheet, ToastAndroid } from "react-native";
+import { StyleSheet, ToastAndroid, useColorScheme } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -47,6 +47,10 @@ export default function MapComponent({ location }) {
   const dispatch = useDispatch();
 
   const { mapRef } = useContext(MapRefContext);
+
+  const scheme = useColorScheme();
+
+  console.log("color mode:", scheme);
 
   //1-  useeffect for search bar animation on user search
   useEffect(() => {
@@ -187,6 +191,7 @@ export default function MapComponent({ location }) {
             })
           );
         }}
+        // userInterfaceStyle={scheme === "dark" ? "dark" : "light"}
       >
         {/* current location marker */}
         <Marker

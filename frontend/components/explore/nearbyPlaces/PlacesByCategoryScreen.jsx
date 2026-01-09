@@ -32,8 +32,13 @@ export default function PlacesByCategoryScreen({ category }) {
     async function getNearbyPlaces() {
       try {
         setIsLoading(true);
+        // const res = await fetch(
+        //   `https://api.geoapify.com/v2/places?categories=${category}&filter=circle:${selectedCoords.lon},${selectedCoords.lat},5000&limit=20&apiKey=${process.env.EXPO_PUBLIC_GEOAPIFY_PLACES_API}`
+        // );
+
+        //delete this later after testing the build
         const res = await fetch(
-          `https://api.geoapify.com/v2/places?categories=${category}&filter=circle:${selectedCoords.lon},${selectedCoords.lat},5000&limit=20&apiKey=${process.env.EXPO_PUBLIC_GEOAPIFY_PLACES_API}`
+          `https://api.geoapify.com/v2/places?categories=${category}&filter=circle:${selectedCoords.lon},${selectedCoords.lat},5000&limit=20&apiKey=478474f7b5fc4d83b33e5507a076eaa9`
         );
 
         const data = await res.json();

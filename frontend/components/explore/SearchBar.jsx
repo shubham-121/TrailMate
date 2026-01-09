@@ -22,14 +22,16 @@ export default function SearchBar() {
       className="absolute z-50 w-full items-center"
       style={{ top: insets.top }}
     >
-      <View className="bg-white rounded-[20px]">
+      <View className="bg-white rounded-[20px] mx-4">
         <View className="flex flex-row justify-center items-center gap-1 px-3 py-2">
           <Image source={mapLogo} className="h-6 w-6" resizeMode="contain" />
+
           <Pressable onPress={navigateToSearchScreen}>
             <View pointerEvents="none">
               <TextInput placeholder="Search Here" className="p-2 w-96" />
             </View>
           </Pressable>
+
           <Image source={avatar} className="h-6 w-6" resizeMode="contain" />
         </View>
       </View>
