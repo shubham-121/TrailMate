@@ -6,13 +6,34 @@
   "build": {
     "development": {
       "developmentClient": true,
-      "distribution": "internal"
+      "distribution": "internal",
+      "env": {
+        "EXPO_PUBLIC_BASE_URL": "https://trailmate-backend-a4th.onrender.com",
+
+        "EXPO_PUBLIC_GEOAPIFY_PLACES_API": "478474f7b5fc4d83b33e5507a076eaa9",
+
+        "EXPO_PUBLIC_GEOAPIFY_PLACE_DETAILS_API": "e22133477dff4a95a28b416b889efd84"
+      }
     },
     "preview": {
-      "distribution": "internal"
+      "distribution": "internal",
+      "env": {
+        "EXPO_PUBLIC_BASE_URL": "https://trailmate-backend-a4th.onrender.com",
+
+        "EXPO_PUBLIC_GEOAPIFY_PLACES_API": "478474f7b5fc4d83b33e5507a076eaa9",
+
+        "EXPO_PUBLIC_GEOAPIFY_PLACE_DETAILS_API": "e22133477dff4a95a28b416b889efd84"
+      }
     },
     "production": {
-      "autoIncrement": true
+      "autoIncrement": true,
+      "env": {
+        "EXPO_PUBLIC_BASE_URL": "https://trailmate-backend-a4th.onrender.com",
+
+        "EXPO_PUBLIC_GEOAPIFY_PLACES_API": "478474f7b5fc4d83b33e5507a076eaa9",
+
+        "EXPO_PUBLIC_GEOAPIFY_PLACE_DETAILS_API": "e22133477dff4a95a28b416b889efd84"
+      }
     }
   },
   "submit": {
