@@ -5,6 +5,8 @@ import {
   Pressable,
   ImageBackground,
   Image,
+  Platform,
+  StatusBar,
 } from "react-native";
 import React from "react";
 import AntDesign from "@expo/vector-icons/AntDesign";
@@ -12,55 +14,49 @@ import userAcc from "../../../assets/images/userAcc/userAcc.png";
 import { useNavigation } from "expo-router";
 
 export default function Header() {
+  const paddingTop =
+    Platform.OS === "android" ? StatusBar.currentHeight + 10 : 10;
   return (
-    <View className="flex flex-row justify-between items-center px-4 py-2 w-full">
-      <Menu />
+    <View
+      style={{ paddingTop }}
+      className="flex flex-row justify-end items-center px-4  w-full"
+    >
+      {/* <Menu /> */}
 
-      <View className="flex flex-row    gap-6">
+      <View className="flex flex-row  items-center  gap-3">
         <Notifications />
         <UserAccount />
       </View>
     </View>
   );
 }
-
 function Menu() {
   return (
-    <View className="rounded-lg p-2 bg-white/90">
-      <Pressable>
-        <AntDesign name="menu" size={24} color="black" />
-      </Pressable>
-    </View>
+    <Pressable className="rounded-xl p-2 bg-white/20 border border-white/30">
+      <AntDesign name="menu" size={24} color="black" />
+    </Pressable>
   );
 }
 
 function Notifications() {
   return (
-    <View className="rounded-full  p-2  bg-gray-400/40">
-      <Pressable>
-        <AntDesign name="bell" size={28} color="black" />
-      </Pressable>
-    </View>
+    // Standardized size: w-11 h-11 ensures it's a perfect circle
+    <Pressable className="w-11 h-11 items-center justify-center rounded-full bg-black/20 border border-white/20">
+      <AntDesign name="bell" size={28} color="black" />
+      {/* Optional: Small red dot for notification */}
+      <View className="absolute top-2 right-2 w-2 h-2 bg-blue-400 rounded-full" />
+    </Pressable>
   );
 }
 
 function UserAccount() {
   return (
-    <View className=" bg-white/60 rounded-full p-1">
-      <View className="rounded-full  border-2  ">
-        <Pressable>
-          {/* <AntDesign name="user" size={24} color="black" /> */}
-          <Image source={userAcc} style={{ height: 35, width: 35 }}></Image>
-        </Pressable>
-      </View>
-    </View>
+    <Pressable className="rounded-full border-2 border-white/50 overflow-hidden">
+      <Image
+        source={userAcc}
+        style={{ height: 40, width: 40 }}
+        resizeMode="cover"
+      />
+    </Pressable>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-});

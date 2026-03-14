@@ -56,7 +56,7 @@ export default function HomeScreen() {
 
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
-      <View className=" w-full flex-1  " style={{ marginTop: insets.top }}>
+      <View className=" w-full flex-1  " style={{}}>
         <HeaderUi />
         <SuggestedPlacesCards></SuggestedPlacesCards>
         <ShowTrips

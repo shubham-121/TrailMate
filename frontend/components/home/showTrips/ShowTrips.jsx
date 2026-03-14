@@ -13,6 +13,7 @@ import { MapRefContext } from "../../../utils/context/MapRefProvider";
 import { MapUIContext } from "../../../utils/context/MapUIContext";
 import { reverseGeocodeLocation } from "../../../utils/commonFunctions/reverseGeocodeLocation";
 import { startTrip } from "../../../redux/slices/tripNavigationSlice";
+import mapPlaceholder from "../../../assets/images/home/mapPlaceholder.png";
 
 export default function ShowTrips({ userTrips, setUserTrips }) {
   // const [tripsPresent, setTripsPresent] = useState(true);
@@ -213,8 +214,13 @@ function TripCard({ item }) {
 
         {/* map thumbnail here */}
         <View className="flex-[0.8] bg-gray-300 rounded-2xl justify-center items-center shadow-sm m-2 min-w-[10px]">
-          <Text className="text-xs text-gray-600">🗺️</Text>
-          <Text className="text-[10px] text-gray-500 mt-1">View Map</Text>
+          {/* <Text className="text-xs text-gray-600">🗺️</Text>
+          <Text className="text-[10px] text-gray-500 mt-1">View Map</Text> */}
+          <Image
+            source={mapPlaceholder}
+            style={{ width: 150, height: 95 }}
+            resizeMode="cover"
+          />
         </View>
       </View>
     </View>

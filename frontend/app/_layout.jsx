@@ -17,7 +17,8 @@ export default function RootLayout() {
             <Provider store={store}>
               <StatusBar
                 style="auto "
-                translucent={false}
+                barStyle="light-content"
+                translucent={true}
                 backgroundColor="transparent"
               />
               <Stack screenOptions={{ headerShown: false }} />
