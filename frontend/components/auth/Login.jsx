@@ -14,6 +14,7 @@ import { useEffect, useState } from "react";
 import { fetchRequest } from "../../utils/commonFunctions/fetchRequest";
 import { useDispatch, useSelector } from "react-redux";
 import { setCredentials } from "../../redux/slices/authSlice";
+import { setTokenLocally } from "../../utils/commonFunctions/authStorage";
 
 export default function LoginScreen() {
   const [formData, setFormData] = useState({
@@ -44,11 +45,17 @@ function LoginForm({ formData, setFormData, handleFormChange }) {
   const router = useRouter();
 
   const dispatch = useDispatch();
-  const { authUserData } = useSelector((state) => state.authentication);
+  const { authUserData, access_token } = useSelector(
+    (state) => state.authentication
+  );
 
-  // useEffect(() => {
-  //   console.log("Auth user data obj updated:", authUserData);
-  // }, [authUserData]);
+  useEffect(() => {
+    if (!authUserData.email || !authUserData.userId) return;
+
+    console.log("USer Logged In :", authUserData);
+  }, [authUserData]);
+
+  //set token here
 
   async function handleLogin() {
     const baseUrl = process.env.EXPO_PUBLIC_BASE_URL;
@@ -91,6 +98,9 @@ function LoginForm({ formData, setFormData, handleFormChange }) {
           userId: data.userId,
         })
       );
+
+      //set token in async storage
+      await setTokenLocally(data.token);
 
       console.log(
         "user loggedin successfully, global auth state set also: ",

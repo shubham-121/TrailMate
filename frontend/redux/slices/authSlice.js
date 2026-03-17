@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { setTokenLocally } from "../../utils/commonFunctions/authStorage";
 //remove the default details later during production
 
 const localToken =
@@ -6,11 +7,11 @@ const localToken =
 
 const initialState = {
   isAuthenticated: false,
-  access_token: localToken,
+  access_token: "",
   refresh_token: "",
   authUserData: {
-    email: "shubham@gmail.com", //remove later
-    userId: "691b0d33f78223d972b00ea4", //remove later
+    email: "", //remove later
+    userId: "", //remove later
   },
 };
 
@@ -22,7 +23,6 @@ export const authSlice = createSlice({
       state.isAuthenticated = true;
 
       const { access_token, email, userId } = action.payload;
-      // console.log("Set setCredentials reducer called: ", action.payload);
 
       state.access_token = access_token;
       state.authUserData = {
@@ -30,11 +30,6 @@ export const authSlice = createSlice({
         userId,
       };
       console.log("Auth State set after login: ", state.isAuthenticated);
-      // console.log(
-      //   "setCredentials set:",
-      //   state.access_token,
-      //   state.authUserData
-      // );
     },
 
     clearCredentials(state, action) {

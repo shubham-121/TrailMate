@@ -11,7 +11,8 @@ import {
 import React from "react";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import userAcc from "../../../assets/images/userAcc/userAcc.png";
-import { useNavigation } from "expo-router";
+import { useNavigation, useRouter } from "expo-router";
+import { useSelector } from "react-redux";
 
 export default function Header() {
   const paddingTop =
@@ -50,8 +51,17 @@ function Notifications() {
 }
 
 function UserAccount() {
+  const { userId, email } = useSelector(
+    (store) => store.authentication.authUserData
+  );
+
+  const router = useRouter();
+
   return (
-    <Pressable className="rounded-full border-2 border-white/50 overflow-hidden">
+    <Pressable
+      onPress={() => router.push(`/accountDetails/${userId}`)}
+      className="rounded-full border-2 border-white/50 overflow-hidden"
+    >
       <Image
         source={userAcc}
         style={{ height: 40, width: 40 }}

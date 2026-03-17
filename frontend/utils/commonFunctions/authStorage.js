@@ -5,6 +5,7 @@ export async function setTokenLocally(token) {
     await AsyncStorage.setItem("access_token", token);
   } catch (error) {
     console.error("Error in saving the token to local storage", error.message);
+    return;
   }
 }
 

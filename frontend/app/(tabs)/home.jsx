@@ -2,11 +2,14 @@ import { View, StyleSheet } from "react-native";
 import React from "react";
 
 import HomeScreen from "../../components/home/HomeScreen";
+import AppLoader from "../../components/auth/AppLoader";
 
 export default function HomeTab() {
   return (
     <View style={styles.container}>
-      <HomeScreen></HomeScreen>
+      <AppLoader>
+        <HomeScreen></HomeScreen>
+      </AppLoader>
     </View>
   );
 }
