@@ -14,7 +14,7 @@ export async function getTokenLocally() {
     const localToken = await AsyncStorage.getItem("access_token");
 
     if (!localToken) {
-      console.error("No token found in local storage");
+      console.log("No token found in local storage 1");
       return;
     }
     console.log("Token found in local storage: ", localToken);
@@ -24,5 +24,20 @@ export async function getTokenLocally() {
       "Error in reading the token from local storage",
       error.message
     );
+  }
+}
+
+export async function clearTokenLocally() {
+  let removedToken = null;
+  try {
+    removedToken = await AsyncStorage.removeItem("access_token");
+    return null;
+  } catch (error) {
+    console.error(
+      "Error in removing the token from local storage",
+      error.message,
+      removedToken
+    );
+    return;
   }
 }

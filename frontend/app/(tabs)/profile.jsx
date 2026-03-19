@@ -13,12 +13,6 @@ export default function Profile() {
   );
   const dispatch = useDispatch();
 
-  function handleUserLogout() {
-    dispatch(clearCredentials());
-
-    return <Redirect href="/home"></Redirect>;
-  }
-
   return (
     <ProtectedRoute>
       <View style={{ flex: 1 }}>

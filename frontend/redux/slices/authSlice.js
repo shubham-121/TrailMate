@@ -33,9 +33,7 @@ export const authSlice = createSlice({
     },
 
     clearCredentials(state, action) {
-      state.isAuthenticated = false;
-      state.access_token = "";
-      state.authUserData = {};
+      return initialState;
     },
   },
 });

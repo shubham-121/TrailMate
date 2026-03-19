@@ -1,8 +1,7 @@
 import { View, Text, Image } from "react-native";
 import React from "react";
 import fuji from "../../assets/images/profile/fuji.jpg";
-import userAvatar from "../../assets/images/userAcc/userAcc.png";
-
+import userAvatar from "../../assets/images/userAcc/loggedInUser.png";
 export default function ProfileHeader() {
   return (
     <View style={{ flex: 1 }} className="bg-gray-200">

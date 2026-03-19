@@ -1,19 +1,27 @@
 import { View, Text, Pressable } from "react-native";
 import React from "react";
-import { useRouter } from "expo-router";
-import { useSelector } from "react-redux";
+import { Redirect, useRouter } from "expo-router";
+import { useDispatch, useSelector } from "react-redux";
+import { clearCredentials } from "../../redux/slices/authSlice";
+import { clearTokenLocally } from "../../utils/commonFunctions/authStorage";
 
 export default function AccountActions() {
   const router = useRouter();
+  const dispatch = useDispatch();
 
   const { authUserData } = useSelector((store) => store.authentication);
   const { email, userId } = authUserData;
 
   console.log("useri id for acc is : ", userId);
 
-  function handleLogout() {
-    alert("Are you sure you want to logout?");
-    return;
+  function handleUserLogout() {
+    //alert use first before logging out
+    clearTokenLocally();
+    dispatch(clearCredentials());
+
+    //clear async storage token as well
+
+    return router.replace("/home"); // navigate to login page after logout
   }
 
   function goToAccountDetails() {
@@ -77,7 +85,7 @@ export default function AccountActions() {
 
             {/* logout feature */}
             <Pressable
-              onPress={handleLogout}
+              onPress={handleUserLogout}
               className="flex-row items-center justify-between py-3"
               android_ripple={{ color: "#eee" }}
             >

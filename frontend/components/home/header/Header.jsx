@@ -8,9 +8,10 @@ import {
   Platform,
   StatusBar,
 } from "react-native";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import AntDesign from "@expo/vector-icons/AntDesign";
-import userAcc from "../../../assets/images/userAcc/userAcc.png";
+import loggedInUser from "../../../assets/images/userAcc/loggedInUser.png";
+import loggedOutUser from "../../../assets/images/userAcc/loggedOutUser.png";
 import { useNavigation, useRouter } from "expo-router";
 import { useSelector } from "react-redux";
 
@@ -54,16 +55,27 @@ function UserAccount() {
   const { userId, email } = useSelector(
     (store) => store.authentication.authUserData
   );
+  const [userAccountImage, setUserAccountImage] = useState(null);
 
   const router = useRouter();
 
+  useEffect(() => {
+    if (userId && email) setUserAccountImage(loggedInUser);
+    else setUserAccountImage(loggedOutUser);
+  }, [userId, email]);
+
+  function handleNavigateToAccount() {
+    if (!userId) router.push("/login");
+    else router.push(`/accountDetails/${userId}`);
+  }
+
   return (
     <Pressable
-      onPress={() => router.push(`/accountDetails/${userId}`)}
+      onPress={handleNavigateToAccount}
       className="rounded-full border-2 border-white/50 overflow-hidden"
     >
       <Image
-        source={userAcc}
+        source={userAccountImage}
         style={{ height: 40, width: 40 }}
         resizeMode="cover"
       />

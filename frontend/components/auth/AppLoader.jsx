@@ -14,7 +14,7 @@ export default function AppLoader({ children }) {
 
       if (!storageToken) {
         //logout if needed later on
-        console.log("No token found in storage:", storageToken);
+        console.log("No token found in storage 2:", storageToken);
         return;
       }
 

@@ -1,4 +1,4 @@
-import { View, ScrollView } from "react-native";
+import { View, ScrollView, Text } from "react-native";
 import { useRouter } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import ShowTrips from "./showTrips/ShowTrips";
@@ -22,6 +22,8 @@ export default function HomeScreen() {
   const [userTrips, setUserTrips] = useState(null);
 
   // console.log("access token in home: ", access_token);
+
+  //render data based on user login or logout
 
   useEffect(() => {
     if (!isFocused) return;
@@ -59,12 +61,64 @@ export default function HomeScreen() {
       <View className=" w-full flex-1  " style={{}}>
         <HeaderUi />
         <SuggestedPlacesCards></SuggestedPlacesCards>
-        <ShowTrips
-          userTrips={userTrips}
-          setUserTrips={setUserTrips}
-        ></ShowTrips>
+        {access_token ? (
+          <ShowTrips
+            userTrips={userTrips}
+            setUserTrips={setUserTrips}
+          ></ShowTrips>
+        ) : (
+          <LoggedOutHome />
+        )}
       </View>
     </ScrollView>
+  );
+}
+
+// function LoggedOutHome() {
+//   return (
+//     <View className="w-full flex-1 items-center justify-center">
+//       <Text className="text-lg font-semibold">
+//         Welcome to TrailMate! Please log in to see your trips and explore new
+//         destinations.
+//       </Text>
+//       generate some random home ui stuff
+//     </View>
+//   );
+// }
+function LoggedOutHome() {
+  return (
+    <View className="w-full flex-1 items-center justify-center px-4 py-8">
+      <Text className="text-2xl font-bold text-center mb-2 text-gray-900">
+        Welcome to TrailMate
+      </Text>
+      <Text className="text-sm text-gray-500 text-center mb-8">
+        Log in to discover and track your adventures
+      </Text>
+      <View className="w-full gap-3">
+        <View className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-5 border border-blue-200 active:opacity-80">
+          <Text className="text-lg font-bold text-blue-900">
+            🏔️ Mountain Hike
+          </Text>
+          <Text className="text-sm text-blue-700 mt-1">
+            Explore alpine trails
+          </Text>
+        </View>
+        <View className="bg-gradient-to-br from-amber-50 to-amber-100 rounded-xl p-5 border border-amber-200 active:opacity-80">
+          <Text className="text-lg font-bold text-amber-900">
+            🏖️ Beach Trail
+          </Text>
+          <Text className="text-sm text-amber-700 mt-1">
+            Coastal adventures await
+          </Text>
+        </View>
+        <View className="bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-5 border border-green-200 active:opacity-80">
+          <Text className="text-lg font-bold text-green-900">
+            🌲 Forest Walk
+          </Text>
+          <Text className="text-sm text-green-700 mt-1">Immerse in nature</Text>
+        </View>
+      </View>
+    </View>
   );
 }
 
